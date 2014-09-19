@@ -1,12 +1,14 @@
 package com.ios.testhelper.demo;
 
 import net.bugs.testhelper.IOSTestHelper;
+import net.bugs.testhelper.TestHelper;
 import net.bugs.testhelper.ios.alert.AlertCondition;
 import net.bugs.testhelper.ios.alert.AlertHandler;
 import net.bugs.testhelper.ios.alert.AlertItem;
 import net.bugs.testhelper.ios.enums.UIAElementType;
 import net.bugs.testhelper.ios.item.Element;
 import net.bugs.testhelper.ios.item.ResponseItem;
+import net.bugs.testhelper.ios.reader.ConsoleReader;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -83,6 +85,10 @@ public class Main {
     }
 
     private static void clickOnElement(Element element){
+        if(element == null) {
+            i("can not click to element, because element is null");
+            return;
+        }
         if(element.isVisible())
             iosTestHelper.clickOnElement(element);
         else
@@ -90,8 +96,18 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+//        TestHelper testHelper = new TestHelper("config.properties", "0997b9b80ae4d10d");
+//
+//        testHelper.sleep(2000);
+//
+//        testHelper.i("current orientation: " + testHelper.getCurrentScreenOrientation());
+//        testHelper.i("current device: " + testHelper.isCurrentDeviceTablet());
+//        testHelper.pressPower();
+//        testHelper.sleep(2000);
+//
         init(args);
-//        cleanFolder(pathToFolderResults);
+        iosTestHelper = new IOSTestHelper(pathToiOSApp, pathToFolderResults, iOSDeviceUUID);
 
         final AlertHandler alertHandler = new AlertHandler();
 
@@ -130,20 +146,33 @@ public class Main {
         alertHandler.push(iosTestHelper);
         iosTestHelper.launchServer();
 
-//        System.out.println("Waiting... Launch application on ios device");
-//        waitiOsDevice();
-        testManager = TestManager.getInstance(iosTestHelper, "","","","","","");
+        testManager = TestManager.getInstance(iosTestHelper, "","","",iOSDeviceUUID,"","");
 
         mainLogic();
-
+//
         sleep(2000);
+//
 
+//        iosTestHelper.waitForNecessaryLine("sendOperationWithEvents", 60000, new ConsoleReader.WaitLineListener() {
+//            @Override
+//            public void waitLinePassed(String line) {
+//                i("line found: " + line);
+//                stopInstruments();
+//            }
+//
+//            @Override
+//            public void waitLineFailed() {
+//                i("line not found");
+//                stopInstruments();
+//            }
+//        });
         stopInstruments();
+
     }
 
     private static void mainLogic() {
-        long timeout = 5000;
-//        long timeout = propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.TIMEOUT.name());
+//        long timeout = 5000;
+        long timeout = propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.TIMEOUT.name());
         if(!signIn(timeout)) {
             i("signOut");
             singOut();
@@ -199,6 +228,13 @@ public class Main {
 
     private static void openItemKpi(String name, String backButton, int toolbarIndex, int downloadTimeout) {
         goToLibrary();
+        if(iosTestHelper.isIphone()) {
+            Element toolbar = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 10000, 1, null, 2);
+            if(toolbar != null) {
+                clickOnElement(iosTestHelper.waitForElementByNameVisible("Search", 1, 0, true, toolbar, 1));
+                sleep(1000);
+            }
+        }
         Element element = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIASearchBar, 100000, 0, null, 3);
         clickOnElement(element);
         ArrayList<Element> buttons = iosTestHelper.getElementChildrenByType(element, UIAElementType.UIAButton);
@@ -227,24 +263,30 @@ public class Main {
         }
 
         i("element is visible?: " + element.isVisible());
+
+//        var target = UIATarget.localTarget();
+//
+//        target.frontMostApp().mainWindow().collectionViews()[0].cells()["Not downloaded, Before Watchmen: Comedian #5 (NOOK Comics with Zoom View), by Brian Azzarello, "].buttons()["Not downloaded, Before Watchmen: Comedian #5 (NOOK Comics with Zoom View), by Brian Azzarello, "].touchAndHold(1.2);
+        sleep(1000);
         iosTestHelper.longClickInsideElement(element, 4, 0.5, 0.5);
 
-        element = iosTestHelper.waitForElementByNameVisible("Download", 10000, 0, true, null, 2);
+        element = iosTestHelper.waitForElementByNameVisible("Download", 10000, 0, true, null, 3);
         if(element == null) {
             TestManager.setStartTime(0);
             TestManager.setEndTime(0);
             failKpi("download " + name);
+            Element closeBtn = iosTestHelper.getElementByName("Close", 0, true, null, 3);
+            iosTestHelper.clickOnElement(closeBtn);
             return;
         }
         clickOnElement(element);
         setStartTime();
-        element = iosTestHelper.waitForElementByNameVisible("Read", downloadTimeout, 0, true, null, 2);
+        element = iosTestHelper.waitForElementByNameVisible("Read", downloadTimeout, 0, true, null, 3);
         setEndTime();
         if(element == null) {
             failKpi("download " + name);
-            Element closeBtn = iosTestHelper.getElementByName("Close", 0, true, null, 2);
+            Element closeBtn = iosTestHelper.getElementByName("Close", 0, true, null, 3);
             iosTestHelper.clickOnElement(closeBtn);
-            //todo logic to close dialog
             return;
         }
         passKpi("download " + name);
@@ -296,13 +338,17 @@ public class Main {
     }
 
     private static boolean openMenu() {
+        return clickToolbarButtonByIndex(0);
+    }
+
+    private static boolean clickToolbarButtonByIndex(int index) {
         Element element = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 10000, 0, null, 2);
         ArrayList<Element> buttons = iosTestHelper.getElementChildrenByType(element, UIAElementType.UIAButton);
         i("Toolbar was found");
         if(buttons.size() < 1) {
             return false;
         }
-        Element button = buttons.get(0);
+        Element button = buttons.get(index);
         clickOnElement(button);
         return true;
     }
@@ -334,23 +380,47 @@ public class Main {
             clickOnElement(btnClear);
         iosTestHelper.inputText(propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()), textFieldEmail);
 
+        sleep(1000);
+
         Element textFieldPassword = iosTestHelper.waitForElementByClassExists(UIAElementType.UIASecureTextField, 5000, 0, null, 2);
         clickOnElement(textFieldPassword);
         btnClear = iosTestHelper.getElementByName("Clear text", 0, true, textFieldPassword, 1);
         if(btnClear != null)
             clickOnElement(btnClear);
-        iosTestHelper.inputText(propertiesManager.getProperty(ConfigurationParametersEnum.PASSWORD.name()), textFieldPassword);
+        iosTestHelper.inputText(propertiesManager.getProperty(ConfigurationParametersEnum.PASSWORD.name()) + "\n", textFieldPassword);
+
+        if(iosTestHelper.isIphone()) {
+            sleep(1000);
+            clickOnElement(btnSignInDialog);
+        }
+
+        TestManager.setStartTime(iosTestHelper.getResponseItem().getStartTime());
 
         iosTestHelper.takeScreenShot();
 
-        clickOnElement(btnSignInDialog);
 
-        TestManager.setStartTime(iosTestHelper.getResponseItem().getStartTime());
-        Element btnFreeSample = iosTestHelper.waitForElementByNameExists("Free Sample", timeout*2, 0, true, null, 5);
-        if(btnFreeSample == null){
-            finishReturn("Button 'Free Sample' is null.", "FirstSync");
-            return false;
+        long startTime = System.currentTimeMillis();
+        Element collection;
+        while (true) {
+            if(System.currentTimeMillis() - startTime > timeout*2){ 
+                finishReturn("Button 'Free Sample' is null.", "FirstSync");
+                return false;
+            }
+
+            if((collection = iosTestHelper.waitForElementByClassExists(UIAElementType.UIACollectionView, 1, 0, null, 2)) != null){
+                if(iosTestHelper.getElementChildren(collection).size() > 0)
+                    break;
+            }
+
+            if(iosTestHelper.waitForElementByNameExists("Free Sample", 1, 0, true, null, 5) != null){
+                break;
+            }
         }
+//        Element btnFreeSample = iosTestHelper.waitForElementByNameExists("Free Sample", timeout*2, 0, true, null, 5);
+//        if(btnFreeSample == null){
+//            finishReturn("Button 'Free Sample' is null.", "FirstSync");
+//            return false;
+//        }
 
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         TestManager.write(TestManager.addLogParams(new Date(), "FirstSync", "", true));

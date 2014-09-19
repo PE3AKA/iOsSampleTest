@@ -16,6 +16,7 @@ public class TestManager {
     private static String mLogin = "";
     private static String mPassword = "";
     private static String mHwDevice = "";
+    private static String mNet = "";
     private static String mArgTimeout = "";
     public static int mTimeout = 0;
 
@@ -23,6 +24,10 @@ public class TestManager {
     private static long mStartTime = 0;
     private static long mEndTime = 0;
     private static IOSTestHelper iosTestHelper;
+    private static String mOs;
+    private static String mSlaveId;
+    private static String mTestId;
+    private static String mTestName;
 
     private TestManager(IOSTestHelper iosTestHelper){
         this.iosTestHelper = iosTestHelper;
@@ -42,17 +47,25 @@ public class TestManager {
                                           final String hwDevice,
                                           final String timeout){
         iosTestHelper = $iosTestHelper;
-        mArgTimeout = timeout;
-        mDeviceId = deviceId;
-        mHwDevice = hwDevice;
-        mBuildId = buildId;
-        mLogin = login;
-        mPassword = password;
-        if(instance == null)
+        if(instance == null) {
             synchronized (TestManager.class) {
-                if(instance == null)
+                if (instance == null)
                     instance = new TestManager(iosTestHelper);
             }
+        }
+        if(mDeviceId.length() == 0) {
+            mArgTimeout = timeout;
+            mDeviceId = deviceId;
+            mHwDevice = iosTestHelper.getIOsDeviceModel();
+            mBuildId = propertiesManager.getProperty("BUILD");
+            mNet = propertiesManager.getProperty("NET");
+            mOs = iosTestHelper.getIOsDeviceFullVersion();
+            mSlaveId = iosTestHelper.getOsFullName();
+            mTestId = System.currentTimeMillis() + "";
+            mTestName = "DemoKpiTest";
+            mLogin = login;
+            mPassword = password;
+        }
         return instance;
     }
 
@@ -64,15 +77,16 @@ public class TestManager {
         ItemLog itemLog = new ItemLog(propertiesManager);
         itemLog.setBuild(mBuildId);
         itemLog.setDeviceId(mDeviceId);
-        itemLog.setNet("");
+        itemLog.setNet(mNet);
         itemLog.setHw(mHwDevice);
-        itemLog.setOs("");
-        itemLog.setSlaveId("");
+        itemLog.setOs(mOs);
+        itemLog.setSlaveId(mSlaveId);
         itemLog.setDate(date, "");
         itemLog.setTime(date, "");
         itemLog.setStartTime(mStartTime);
         itemLog.setEndTime(mEndTime, 0);
-        itemLog.setTestId("kpi");
+        itemLog.setTestId(mTestId);
+        itemLog.setTestName(mTestName);
         itemLog.setTestAction(testAction);
         itemLog.setTestData(testData);
         itemLog.setTestResult(testResult);
