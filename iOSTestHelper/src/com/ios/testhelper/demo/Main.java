@@ -10,6 +10,7 @@ import net.bugs.testhelper.ios.item.Element;
 import net.bugs.testhelper.ios.item.ResponseItem;
 import net.bugs.testhelper.ios.reader.ConsoleReader;
 import org.apache.commons.io.FileUtils;
+import sun.security.krb5.Config;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class Main {
     private static void init(String[] args){
         System.out.println("Args length:" + args.length);
         pathToiOSApp = args[0];
-//        pathToiOSApp = "/Users/nikolai/Downloads/BNeReader-Universal-SIM-Release-build-4121.app";
+//        pathToiOSApp = "/Users/nikolai/Downloads/builds/BNeReader-Universal-SIM-Release-build-4198.app";
         pathToFolderResults = args[1];
 //        pathToFolderResults = "results";
         iOSDeviceUUID = args[2];
@@ -189,12 +190,18 @@ public class Main {
                 1,
                 propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.BOOK_DOWNLOAD_TIMEOUT.name()));
 
+
+        openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.PDF.name()),
+                "Back to Library",
+                -1,
+                propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.PDF_DOWNLOAD_TIMEOUT.name()));
+
+
         openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.WOODWIN_MAGAZINE.name()),
                 "Back to library",
                 -1,
                 propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.WOODWIN_TIMEOUT.name()));
 
-//        openItemKpi("Is For Stupid", "backButton", -1);
         singOut();
     }
 
