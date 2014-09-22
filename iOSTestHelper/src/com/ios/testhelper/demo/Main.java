@@ -34,12 +34,12 @@ public class Main {
 
     private static void init(String[] args){
         System.out.println("Args length:" + args.length);
-        pathToiOSApp = args[0];
-//        pathToiOSApp = "/Users/nikolai/Downloads/builds/BNeReader-Universal-SIM-Release-build-4198.app";
-        pathToFolderResults = args[1];
-//        pathToFolderResults = "results";
-        iOSDeviceUUID = args[2];
-//        iOSDeviceUUID = "iPad - Simulator - iOS 7.1";
+//        pathToiOSApp = args[0];
+        pathToiOSApp = "/Users/nikolai/Downloads/builds/BNeReader-Universal-SIM-Release-build-4204.app";
+//        pathToFolderResults = args[1];
+        pathToFolderResults = "results";
+//        iOSDeviceUUID = args[2];
+        iOSDeviceUUID = "iPad - Simulator - iOS 7.1";
         propertiesManager = new PropertiesManager();
     }
 
@@ -187,8 +187,8 @@ public class Main {
                 propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.COMICS_DOWNLOAD_TIMEOUT.name()));
 
         openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.BOOK.name()),
-                "Library",
-                1,
+                "Back to library",
+                -1,
                 propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.BOOK_DOWNLOAD_TIMEOUT.name()));
 
 
@@ -199,9 +199,9 @@ public class Main {
 
 
         openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.WOODWIN_MAGAZINE.name()),
-                "Back to library",
-                -1,
-                propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.WOODWIN_TIMEOUT.name()));
+                "Library",
+                1,
+                propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.WOODWIN_DOWNLOAD_TIMEOUT.name()));
 
         singOut();
     }
