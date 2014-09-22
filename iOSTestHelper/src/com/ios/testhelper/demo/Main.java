@@ -34,12 +34,12 @@ public class Main {
 
     private static void init(String[] args){
         System.out.println("Args length:" + args.length);
-//        pathToiOSApp = args[0];
-        pathToiOSApp = "/Users/nikolai/Downloads/builds/BNeReader-Universal-SIM-Release-build-4204.app";
-//        pathToFolderResults = args[1];
-        pathToFolderResults = "results";
-//        iOSDeviceUUID = args[2];
-        iOSDeviceUUID = "iPad - Simulator - iOS 7.1";
+        pathToiOSApp = args[0];
+//        pathToiOSApp = "/Users/nikolai/Downloads/builds/BNeReader-Universal-SIM-Release-build-4204.app";
+        pathToFolderResults = args[1];
+//        pathToFolderResults = "results";
+        iOSDeviceUUID = args[2];
+//        iOSDeviceUUID = "iPad - Simulator - iOS 7.1";
         propertiesManager = new PropertiesManager();
     }
 
