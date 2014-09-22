@@ -173,6 +173,7 @@ public class Main {
 
     private static void mainLogic() {
 //        long timeout = 5000;
+
         long timeout = propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.TIMEOUT.name());
         if(!signIn(timeout)) {
             i("signOut");
@@ -203,6 +204,23 @@ public class Main {
                 propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.WOODWIN_TIMEOUT.name()));
 
         singOut();
+    }
+
+    private static void chooseCountry() {
+        Element chooseCountry = iosTestHelper.waitForElementByNameVisible("select country", 10000, 0, true, null, 2);
+        iosTestHelper.clickOnElement(chooseCountry);
+
+        chooseCountry.getValue();
+        Element picker = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAPicker, 10000, 0, null, 2);
+        sleep(1000);
+
+//        i("x: " + picker.getX() + " | y: " + picker.getY());
+//        i("height: " + picker.getHeight() + " | wight: " + picker.getWidth());
+
+        int x = picker.getX() + picker.getWidth() / 2;
+        int y = picker.getY() + picker.getHeight() - 10;
+
+        iosTestHelper.clickByXY(x, y);
     }
 
     private static void singOut() {
@@ -361,11 +379,15 @@ public class Main {
     }
 
     private static boolean signIn(long timeout) {
+
+        chooseCountry();
+
         Element btnSignIn = iosTestHelper.waitForElementByNameVisible("signIn", timeout, 0, true, null, 2);
         if(btnSignIn == null) {
             finishReturn("Button 'Sign in' is null.", "click on sign in");
             return false;
         }
+
         iosTestHelper.takeScreenShot();
         clickOnElement(btnSignIn);
 
