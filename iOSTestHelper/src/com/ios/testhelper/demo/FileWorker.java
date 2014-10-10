@@ -1,8 +1,10 @@
 package com.ios.testhelper.demo;
 
-import net.bugs.testhelper.IOSTestHelper;
+import com.ios.testhelper.demo.helpers.ITest;
 
 import java.io.*;
+
+import static net.bugs.testhelper.helpers.LoggerUtil.i;
 
 /**
  * Created by nikolai on 14.01.14.
@@ -12,9 +14,9 @@ public class FileWorker {
     private String fileName;
     private File currentFile;
     private String testName = null;
-    private IOSTestHelper iosTestHelper;
+    private ITest iosTestHelper;
 
-    public FileWorker(String fileName, IOSTestHelper iosTestHelper) {
+    public FileWorker(String fileName, ITest iosTestHelper) {
         this.fileName = fileName;
         this.iosTestHelper = iosTestHelper;
     }
@@ -34,6 +36,7 @@ public class FileWorker {
             int number = getLineNumberFile();
             number++;
             String log = itemLog.toString();
+            i("KPI: " + log);
             bw.write(log);
             bw.newLine();
             bw.flush();

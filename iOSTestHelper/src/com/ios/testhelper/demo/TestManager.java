@@ -1,6 +1,6 @@
 package com.ios.testhelper.demo;
 
-import net.bugs.testhelper.IOSTestHelper;
+import com.ios.testhelper.demo.helpers.ITest;
 
 import java.util.Date;
 
@@ -23,13 +23,13 @@ public class TestManager {
     public static PropertiesManager propertiesManager;
     private static long mStartTime = 0;
     private static long mEndTime = 0;
-    private static IOSTestHelper iosTestHelper;
+    private static ITest iosTestHelper;
     private static String mOs;
     private static String mSlaveId;
     private static String mTestId;
     private static String mTestName;
 
-    private TestManager(IOSTestHelper iosTestHelper){
+    private TestManager(ITest iosTestHelper){
         this.iosTestHelper = iosTestHelper;
         fileWorker = new FileWorker("ios.csv", iosTestHelper);
         propertiesManager = new PropertiesManager();
@@ -39,7 +39,7 @@ public class TestManager {
         return propertiesManager;
     }
 
-    public static TestManager getInstance(IOSTestHelper $iosTestHelper,
+    public static TestManager getInstance(ITest $iosTestHelper,
                                           final String buildId,
                                           final String login,
                                           final String password,
@@ -97,7 +97,7 @@ public class TestManager {
             fileWorker.writeLog(itemLog);
     }
 
-    public IOSTestHelper getTestHelper() {
+    public ITest getTestHelper() {
         return iosTestHelper;
     }
 
