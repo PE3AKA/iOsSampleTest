@@ -50,7 +50,7 @@ public class FileWorker {
             }
         }
         String name = itemLog.getDate() + "_" + itemLog.getTime() + "_" + (itemLog.getTestResult() ? "pass" : "fail") + "_" + itemLog.getTestName() + "_" + itemLog.getTestAction();
-        iosTestHelper.takeScreenShot();
+        iosTestHelper.takeScreenShot(name);
     }
 
 //    public Date write (String text) {
