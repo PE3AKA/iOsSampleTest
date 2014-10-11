@@ -39,7 +39,7 @@ public class SignInKpi extends KpiTest {
 
         btnSignIn = iosTestHelper.waitForElementByNameVisible(iosTestHelper.isIPad() ? "explore the app" : "signIn", timeout, 0, true, null, 2);
 
-        iosTestHelper.takeScreenShot();
+//        iosTestHelper.takeScreenShot();
         iosTestHelper.saveClickOnElement(btnSignIn);
 
         Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 2, true, null, 3);
@@ -76,7 +76,7 @@ public class SignInKpi extends KpiTest {
 
         TestManager.setStartTime(iosTestHelper.getResponseItem().getStartTime());
 
-        iosTestHelper.takeScreenShot();
+//        iosTestHelper.takeScreenShot();
 
 
         long startTime = System.currentTimeMillis();
