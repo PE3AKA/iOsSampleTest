@@ -4,10 +4,7 @@ import com.ios.testhelper.demo.enums.ProductTypeEnum;
 import com.ios.testhelper.demo.helpers.ITest;
 import com.ios.testhelper.demo.init.InitParams;
 import com.ios.testhelper.demo.init.Params;
-import com.ios.testhelper.demo.kpi.KpiTest;
-import com.ios.testhelper.demo.kpi.SignInKpi;
-import com.ios.testhelper.demo.kpi.SignOutKpi;
-import com.ios.testhelper.demo.kpi.TestOpenItemKpi;
+import com.ios.testhelper.demo.kpi.*;
 import net.bugs.testhelper.ios.alert.AlertCondition;
 import net.bugs.testhelper.ios.alert.AlertHandler;
 import net.bugs.testhelper.ios.alert.AlertItem;
@@ -20,10 +17,10 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
 public class Main {
 
     private static final String LOG_TAG = "iOSTestHelper : ";
-    private static String iOSDeviceUUID = "";
-    private static String pathToiOSApp = "";
-    private static String pathToFolderResults = "";
-    private static String testName = "";
+    private static String iOSDeviceUUID = "iPhone Retina (4-inch 64-bit) - Simulator - iOS 7.1";
+    private static String pathToiOSApp = "/Users/ashynkevich/Dev/Automation/builds/";
+    private static String pathToFolderResults = "/result";
+    private static String testName = "testOobe";
     private static ITest iosTestHelper;
     private static TestManager testManager;
     private static PropertiesManager propertiesManager;
@@ -129,6 +126,8 @@ public class Main {
             kpiTest = new SignInKpi(iosTestHelper, propertiesManager, testManager);
         } else if(testName.equals(Params.TEST_SIGN_OUT)) {
             kpiTest = new SignOutKpi(iosTestHelper, propertiesManager, testManager);
+        } else if(testName.equals(Params.TEST_DEFERREF_SIGN_IN)) {
+            kpiTest = new DeferredSignInKPI(iosTestHelper, propertiesManager, testManager);
         } else if(testName.equals(Params.TEST_OPEN_BOOK)) {
             kpiTest = new TestOpenItemKpi(iosTestHelper, propertiesManager, testManager);
             productTypeEnum = ProductTypeEnum.BOOK;

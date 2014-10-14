@@ -42,5 +42,7 @@ public enum  ConfigurationParametersEnum {
     BOOK_DOWNLOAD_TIMEOUT,
 
     PDF,
-    PDF_DOWNLOAD_TIMEOUT
+    PDF_DOWNLOAD_TIMEOUT,
+
+    SAMPLE_DOWNLOAD_TIMEOUT
 }

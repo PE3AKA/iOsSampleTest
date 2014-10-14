@@ -12,6 +12,7 @@ import java.util.Date;
  * Created by avsupport on 10/9/14.
  */
 public abstract class KpiTest {
+
     public abstract boolean execute(ProductTypeEnum productTypeEnum);
 
     protected ITest iosTestHelper = null;

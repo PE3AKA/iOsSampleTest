@@ -137,7 +137,7 @@ public class SignInKpi extends KpiTest {
         return true;
     }
 
-    private void chooseCountry() {
+    protected void chooseCountry() {
         Element element = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAPickerWheel, 10000, 0, null, 3);
         if(element != null && element.getValue().equals("United States. 2 of 2")) {
             return;
@@ -158,7 +158,7 @@ public class SignInKpi extends KpiTest {
         iosTestHelper.clickByXY(x, y);
     }
 
-    private void finishReturn(String msgLog, String testAction){
+    protected void finishReturn(String msgLog, String testAction){
         i(msgLog);
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         testManager.write(testManager.addLogParams(new Date(), testAction, "", false));

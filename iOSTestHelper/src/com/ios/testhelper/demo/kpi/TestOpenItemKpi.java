@@ -73,12 +73,12 @@ public class TestOpenItemKpi extends KpiTest {
         iosTestHelper.hideKeyboard();
         iosTestHelper.setStartTime();
         Element collection = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionView, 10000, 0, null, 2);
-        if(element == null) {
+        if(collection == null) {
             iosTestHelper.setEndTime();
             iosTestHelper.failKpi("search " + name);
             return;
         }
-        ArrayList<Element> elements = iosTestHelper.getElementChildren(element);
+        ArrayList<Element> elements = iosTestHelper.getElementChildren(collection);
         i("Count collection cell:" + elements.size());
 
         element = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionCell, 10000, 0, collection, 1);

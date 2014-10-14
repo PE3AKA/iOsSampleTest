@@ -10,6 +10,7 @@ public class Params {
     public static final String TEST = "-t";
 
     public static final String TEST_SIGN_IN = "signIn";
+    public static final String TEST_DEFERREF_SIGN_IN = "deferredSignIn";
     public static final String TEST_SIGN_OUT = "signOut";
     public static final String TEST_OPEN_BOOK = "openBook";
     public static final String TEST_OPEN_MAGAZINES = "openMagazine";
