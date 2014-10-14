@@ -5,10 +5,10 @@ package com.ios.testhelper.demo;
  */
 public class MainConstants {
 
-    public static final String CONFIGURATION_FILE_PATH = "/Users/ashynkevich/Dev/Automation/projects/iOsSampleTest/iOSTestHelper/config.properties";
+    public static final String CONFIGURATION_FILE_PATH = "config.properties";
+//    public static final String CONFIGURATION_FILE_PATH = "/Users/ashynkevich/Dev/Automation/projects/iOsSampleTest/iOSTestHelper/config.properties";
     public static final int DEFAULT_TIMEOUT = 60000;
     public static String TEST_NAME = "";
     public static String TEST_TYPE = "kpi";
     public static long TIME_START_TEST = 0;
-
 }

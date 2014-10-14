@@ -28,6 +28,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import static net.bugs.testhelper.helpers.LoggerUtil.i;
+
 public class PropertiesManager {
     private static Properties properties;
 
@@ -98,6 +100,7 @@ public class PropertiesManager {
     }
 
     public void closeApp(String s) {
+        i(s);
         System.exit(0);
     }
 

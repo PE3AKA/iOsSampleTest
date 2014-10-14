@@ -57,6 +57,7 @@ public class Main {
                      Params.getTestList());
             System.exit(0);
         }
+
         propertiesManager = new PropertiesManager();
     }
 
