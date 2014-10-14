@@ -44,7 +44,7 @@ public class SignOutKpi extends KpiTest {
 
         iosTestHelper.setStartTime();
         iosTestHelper.sleep(1000);
-        iosTestHelper.waitForElementByNameVisible("signIn", 30000, 0, true, null, 2);
+        iosTestHelper.waitForElementByNameVisible(iosTestHelper.isIPad() ? "explore the app" : "signIn", 30000, 0, true, null, 2);
         iosTestHelper.setEndTime();
         if(element == null) iosTestHelper.passKpi("SignOut");
         return true;
