@@ -28,7 +28,7 @@ public class Main {
     private static void init(String[] args){
         InitParams initParams = new InitParams(args);
 
-        System.out.println("Args length:" + args.length);
+//        System.out.println("Args length:" + args.length);
         pathToiOSApp = initParams.getBuildPath();
         if(pathToiOSApp == null) {
             i("Looks like you forgot setup path to iOs build or app bundle\n" +
@@ -127,7 +127,7 @@ public class Main {
         } else if(testName.equals(Params.TEST_SIGN_OUT)) {
             kpiTest = new SignOutKpi(iosTestHelper, propertiesManager, testManager);
         } else if(testName.equals(Params.TEST_DEFERREF_SIGN_IN)) {
-            kpiTest = new DeferredSignInKPI(iosTestHelper, propertiesManager, testManager);
+//            kpiTest = new DeferredSignInKPI(iosTestHelper, propertiesManager, testManager);
         } else if(testName.equals(Params.TEST_OPEN_BOOK)) {
             kpiTest = new TestOpenItemKpi(iosTestHelper, propertiesManager, testManager);
             productTypeEnum = ProductTypeEnum.BOOK;
