@@ -29,6 +29,6 @@ public class Params {
     };
 
     public static String getTestList(){
-        return TEST_SIGN_IN + "\n" + TEST_SIGN_OUT + "\n" + TEST_OPEN_BOOK + "\n" + TEST_OPEN_MAGAZINES + "\n" + TEST_OPEN_PDF + "\n" + TEST_OPEN_COMICS + "\n" + TEST_OPEN_NEWSPAPER + "\n" + TEST_ALL_KPI;
+        return TEST_SIGN_IN + "\n" + TEST_SIGN_OUT + "\n" + TEST_OPEN_BOOK + "\n" + TEST_OPEN_MAGAZINES + "\n" + TEST_OPEN_PDF + "\n" + TEST_OPEN_COMICS + "\n" + TEST_OPEN_NEWSPAPER + "\n" + TEST_ALL_KPI + "\n" + TEST_DEFERREF_SIGN_IN;
     }
 }
