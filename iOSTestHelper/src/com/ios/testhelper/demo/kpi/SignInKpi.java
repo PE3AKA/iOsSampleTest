@@ -42,7 +42,8 @@ public class SignInKpi extends KpiTest {
 //        iosTestHelper.takeScreenShot();
         iosTestHelper.saveClickOnElement(btnSignIn);
 
-        Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 2, true, null, 3);
+//        Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 2, true, null, 3);
+        Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 0, true, null, 2);
         if(btnSignInDialog == null) {
             finishReturn("Dialog button 'Sign In' is null.", "click on sign in");
             return false;
@@ -71,6 +72,7 @@ public class SignInKpi extends KpiTest {
 
         if(iosTestHelper.isIphone()) {
             iosTestHelper.sleep(1000);
+//            btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 0, true, null, 2);
             iosTestHelper.saveClickOnElement(btnSignInDialog);
         }
 

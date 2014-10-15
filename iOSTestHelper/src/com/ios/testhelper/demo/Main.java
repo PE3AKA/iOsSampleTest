@@ -9,6 +9,8 @@ import net.bugs.testhelper.ios.alert.AlertCondition;
 import net.bugs.testhelper.ios.alert.AlertHandler;
 import net.bugs.testhelper.ios.alert.AlertItem;
 
+import java.io.File;
+
 import static net.bugs.testhelper.helpers.LoggerUtil.i;
 
 /**
@@ -17,10 +19,10 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
 public class Main {
 
     private static final String LOG_TAG = "iOSTestHelper : ";
-    private static String iOSDeviceUUID = "iPhone Retina (4-inch 64-bit) - Simulator - iOS 7.1";
-    private static String pathToiOSApp = "/Users/ashynkevich/Dev/Automation/builds/";
-    private static String pathToFolderResults = "/result";
-    private static String testName = "testOobe";
+    private static String iOSDeviceUUID = "";
+    private static String pathToiOSApp = "";
+    private static String pathToFolderResults = "";
+    private static String testName = "";
     private static ITest iosTestHelper;
     private static TestManager testManager;
     private static PropertiesManager propertiesManager;
@@ -66,6 +68,9 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+        File file = new File("config.properties");
+        i(file.getAbsolutePath() + " test " + file.exists());
         init(args);
 
         setUpIOsHelper();

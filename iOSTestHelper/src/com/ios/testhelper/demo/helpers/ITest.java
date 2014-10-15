@@ -16,7 +16,7 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
  */
 public class ITest extends IOSTestHelper {
     public ITest(String pathToApplicationOrBundle, String pathToResultsFolder, String deviceUUID) {
-        super(pathToApplicationOrBundle, pathToResultsFolder, deviceUUID,false);
+        super(pathToApplicationOrBundle, pathToResultsFolder, deviceUUID);
     }
 
     public void saveClickOnElement(Element element){
