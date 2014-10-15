@@ -16,7 +16,7 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
  */
 public class ITest extends IOSTestHelper {
     public ITest(String pathToApplicationOrBundle, String pathToResultsFolder, String deviceUUID) {
-        super(pathToApplicationOrBundle, pathToResultsFolder, deviceUUID);
+        super(pathToApplicationOrBundle, pathToResultsFolder, deviceUUID,false);
     }
 
     public void saveClickOnElement(Element element){
@@ -31,11 +31,16 @@ public class ITest extends IOSTestHelper {
     }
 
     public void hideKeyboard() {
-        Element element = waitForElementByClassExists(UIAElementType.UIAKeyboard, 1, 0, null, 2);
-        if(element != null){
-            int[] screenSize = getScreenSize();
-            clickByXY(screenSize[0] / 3, screenSize[1] / 3);
-        }
+        Element keyboard = waitForElementByClassExists(UIAElementType.UIAKeyboard, 1, 0, null, 2);
+
+        Element element = waitForElementByNameExists("Hide keyboard", 10000, 0, true, keyboard, 2);
+            if(element != null){
+                saveClickOnElement(element);
+            }
+//        if(element != null){
+//            int[] screenSize = getScreenSize();
+//            clickByXY(screenSize[0] / 3, screenSize[1] / 3);
+//        }
     }
 
     public boolean openMenu() {
