@@ -53,37 +53,6 @@ public class FileWorker {
         iosTestHelper.takeScreenShot(name);
     }
 
-//    public Date write (String text) {
-//        BufferedWriter bw = null;
-//        currentFile = new File(fileName);
-//        Date date = new Date();
-//        try {
-//            if(!currentFile.exists()){
-//                currentFile.createNewFile();
-//            }
-//
-//            bw = new BufferedWriter(new FileWriter(currentFile.getAbsoluteFile(), true));
-//
-//            int number = getLineNumberFile();
-//            SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
-//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-//            String log = String.format(MainConstants.RANDOM_TEST_LOG, ++number, simpleTimeFormat.format(date), simpleDateFormat.format(date), (testName==null ? "" : testName), text);
-//
-//            bw.write(log);
-//            bw.newLine();
-//            bw.flush();
-//        } catch (IOException ioe) {
-//            ioe.printStackTrace();
-//        } finally {
-//            if (bw != null) try {
-//                bw.close();
-//            } catch (IOException ioe2) {
-//                ioe2.printStackTrace();
-//            }
-//        }
-//        return date;
-//    }
-
     private int getLineNumberFile() throws IOException {
         LineNumberReader  lnr = new LineNumberReader(new FileReader(new File(fileName)));
         lnr.skip(Long.MAX_VALUE);

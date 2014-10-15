@@ -1,5 +1,6 @@
 package com.ios.testhelper.demo.kpi;
 
+import com.ios.testhelper.demo.MainConstants;
 import com.ios.testhelper.demo.PropertiesManager;
 import com.ios.testhelper.demo.TestManager;
 import com.ios.testhelper.demo.enums.ConfigurationParametersEnum;
@@ -21,30 +22,37 @@ public class TestOpenItemKpi extends KpiTest {
         super(iosTestHelper, propertiesManager, testManager);
     }
 
+    private String testName = "";
+
     @Override
     public boolean execute(ProductTypeEnum productTypeEnum) {
         switch (productTypeEnum) {
             case BOOK:
+                testName = MainConstants.OPEN_BOOK_TEST_NAME;
                 openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.BOOK.name()),
                         "Back to library",
                         -1,
                         propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.BOOK_DOWNLOAD_TIMEOUT.name()));
                 break;
             case MAGAZINE:
+                testName = MainConstants.OPEN_MAGAZINE_TEST_NAME;
                 openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.WOODWIN_MAGAZINE.name()),
                         iosTestHelper.isIPad() ? "Library" : "library",
                         0,
                         propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.WOODWIN_DOWNLOAD_TIMEOUT.name()));
                 break;
             case NEWSPAPER:
+                testName = MainConstants.OPEN_NEWSPAPERS_TEST_NAME;
                 break;
             case PDF:
+                testName = MainConstants.OPEN_PDF_TEST_NAME;
                 openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.PDF.name()),
                         "Back to Library",
                         -1,
                         propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.PDF_DOWNLOAD_TIMEOUT.name()));
                 break;
             case COMICS:
+                testName = MainConstants.OPEN_COMICS_TEST_NAME;
                 openItemKpi(propertiesManager.getProperty(ConfigurationParametersEnum.DRP_COMICS.name()),
                         iosTestHelper.isIPad() ? "Library" : "library",
                         0,
@@ -75,7 +83,7 @@ public class TestOpenItemKpi extends KpiTest {
         Element collection = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionView, 10000, 0, null, 2);
         if(collection == null) {
             iosTestHelper.setEndTime();
-            iosTestHelper.failKpi("search " + name);
+            failSearch(name);
             return;
         }
         ArrayList<Element> elements = iosTestHelper.getElementChildren(collection);
@@ -84,10 +92,10 @@ public class TestOpenItemKpi extends KpiTest {
         element = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionCell, 10000, 0, collection, 1);
         iosTestHelper.setEndTime();
         if(element == null) {
-            iosTestHelper.failKpi("search " + name);
+            failSearch(name);
             return;
         } else {
-            iosTestHelper.passKpi("search " + name);
+            iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_SEARCH, name);
         }
 
         i("element is visible?: " + element.isVisible());
@@ -100,7 +108,8 @@ public class TestOpenItemKpi extends KpiTest {
         if(element == null) {
             TestManager.setStartTime(0);
             TestManager.setEndTime(0);
-            iosTestHelper.failKpi("download " + name);
+            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_DOWNLOAD, name);
+            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
             Element closeBtn = iosTestHelper.getElementByName("com.bn.NookApplication.btn bac", 0, true, null, 3);
             iosTestHelper.clickOnElement(closeBtn);
             return;
@@ -110,12 +119,15 @@ public class TestOpenItemKpi extends KpiTest {
         element = iosTestHelper.waitForElementByNameVisible("Read", downloadTimeout, 0, true, null, 3);
         iosTestHelper.setEndTime();
         if(element == null) {
-            iosTestHelper.failKpi("download " + name);
+            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_DOWNLOAD, name);
+            TestManager.setStartTime(0);
+            TestManager.setEndTime(0);
+            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
             Element closeBtn = iosTestHelper.getElementByName("com.bn.NookApplication.btn bac", 0, true, null, 3);
             iosTestHelper.clickOnElement(closeBtn);
             return;
         }
-        iosTestHelper.passKpi("download " + name);
+        iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_DOWNLOAD, name);
         iosTestHelper.saveClickOnElement(element);
         iosTestHelper.setStartTime();
 
@@ -123,7 +135,7 @@ public class TestOpenItemKpi extends KpiTest {
             element = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 60000, toolbarIndex, null, 2);
 
             if (element == null) {
-                iosTestHelper.failKpi("open " + name);
+                iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
                 return;
             }
         }
@@ -131,13 +143,21 @@ public class TestOpenItemKpi extends KpiTest {
         element = iosTestHelper.waitForElementByNameVisible(backButton, 60000, 0, true, toolbarIndex > -1 ? element : null, toolbarIndex > -1 ? 1 : 3);
         iosTestHelper.setEndTime();
         if(element == null) {
-            iosTestHelper.failKpi("open " + name);
+            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
             return;
         }
 
-        iosTestHelper.passKpi("open " + name);
+        iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
         iosTestHelper.saveClickOnElement(element);
 
         iosTestHelper.sleep(3000);
+    }
+
+    private void failSearch(String name) {
+        iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_SEARCH, name);
+        TestManager.setStartTime(0);
+        TestManager.setEndTime(0);
+        iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_DOWNLOAD, name);
+        iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
     }
 }

@@ -1,5 +1,6 @@
 package com.ios.testhelper.demo.kpi;
 
+import com.ios.testhelper.demo.MainConstants;
 import com.ios.testhelper.demo.enums.ConfigurationParametersEnum;
 import com.ios.testhelper.demo.PropertiesManager;
 import com.ios.testhelper.demo.TestManager;
@@ -33,7 +34,7 @@ public class SignInKpi extends KpiTest {
         chooseCountry();
 
         if(btnSignIn == null) {
-            finishReturn("Button 'Sign in' is null.", "click on sign in");
+            finishReturn("Button 'Sign in' is null.", MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION);
             return false;
         }
 
@@ -45,7 +46,7 @@ public class SignInKpi extends KpiTest {
 //        Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 2, true, null, 3);
         Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 0, true, null, 2);
         if(btnSignInDialog == null) {
-            finishReturn("Dialog button 'Sign In' is null.", "click on sign in");
+            finishReturn("Dialog button 'Sign In' is null.", MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION);
             return false;
         }
 
@@ -85,7 +86,7 @@ public class SignInKpi extends KpiTest {
         Element collection;
         while (true) {
             if(System.currentTimeMillis() - startTime > timeout*2){
-                finishReturn("Button 'Free Sample' is null.", "FirstSync");
+                finishReturn("Library is not loaded.", MainConstants.LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC);
                 return false;
             }
 
@@ -119,23 +120,24 @@ public class SignInKpi extends KpiTest {
         }
 
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
-        TestManager.write(TestManager.addLogParams(new Date(), "FirstSync", "", true));
+
+        iosTestHelper.passKpi(MainConstants.LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
 
         iosTestHelper.waitForElementByNameExists("Network connection in progress", 15000, 0, true, null, 3);
 
         if(!iosTestHelper.waitForElementByNameGone("Network connection in progress", timeout*10, 0, true, null, 3)) {
-            finishReturn("Network connection in progress is exist 5 min.", "FullSync");
+            finishReturn("Network connection in progress is exist 5 min.", MainConstants.LIBRARY_TEST_NAME, "FullSync");
             return false;
         }
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         while (iosTestHelper.waitForElementByNameExists("Network connection in progress", 3000, 0, true, null, 3) != null) {
             if(!iosTestHelper.waitForElementByNameGone("Network connection in progress", timeout*10, 0, true, null, 3)) {
-                finishReturn("Network connection in progress is exist 5 min.", "FullSync");
+                finishReturn("Network connection in progress is exist 5 min.", MainConstants.LIBRARY_TEST_NAME, "FullSync");
                 return false;
             }
             TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         }
-        TestManager.write(TestManager.addLogParams(new Date(), "FullSync", "", true));
+        iosTestHelper.passKpi(MainConstants.LIBRARY_TEST_NAME, MainConstants.LIBRARY_FULL_SYNC, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
         return true;
     }
 
@@ -160,9 +162,9 @@ public class SignInKpi extends KpiTest {
         iosTestHelper.clickByXY(x, y);
     }
 
-    protected void finishReturn(String msgLog, String testAction){
+    protected void finishReturn(String msgLog, String testName, String testAction){
         i(msgLog);
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
-        testManager.write(testManager.addLogParams(new Date(), testAction, "", false));
+        iosTestHelper.failKpi(testName, testAction, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
     }
 }

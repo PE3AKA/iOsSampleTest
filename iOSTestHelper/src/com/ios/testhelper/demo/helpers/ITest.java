@@ -88,11 +88,11 @@ public class ITest extends IOSTestHelper {
         TestManager.setEndTime(getResponseItem().getEndTime());
     }
 
-    public void passKpi(String kpiName){
-        TestManager.write(TestManager.addLogParams(new Date(), kpiName, "", true));
+    public void passKpi(String testName, String kpiName, String testData){
+        TestManager.write(TestManager.addLogParams(new Date(), testName, kpiName, testData, true));
     }
 
-    public void failKpi(String kpiName){
-        TestManager.write(TestManager.addLogParams(new Date(), kpiName, "", false));
+    public void failKpi(String testName, String kpiName, String testData){
+        TestManager.write(TestManager.addLogParams(new Date(), testName, kpiName, testData, false));
     }
 }

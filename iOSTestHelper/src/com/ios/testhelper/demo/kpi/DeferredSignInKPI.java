@@ -1,6 +1,7 @@
 package com.ios.testhelper.demo.kpi;
 
 
+import com.ios.testhelper.demo.MainConstants;
 import com.ios.testhelper.demo.PropertiesManager;
 import com.ios.testhelper.demo.TestManager;
 import com.ios.testhelper.demo.enums.ConfigurationParametersEnum;
@@ -18,13 +19,10 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
  * Created by ashynkevich on 10/14/14.
  */
 
-public class DeferredSignInKPI extends KpiTest {
-    SignInKpi signInKpi;
-
+public class DeferredSignInKPI extends SignInKpi {
 
     public DeferredSignInKPI(ITest iosTestHelper, PropertiesManager propertiesManager, TestManager testManager) {
         super(iosTestHelper, propertiesManager, testManager);
-        signInKpi = new SignInKpi(iosTestHelper, propertiesManager, testManager);
     }
 
     @Override
@@ -51,10 +49,10 @@ public class DeferredSignInKPI extends KpiTest {
 
         iosTestHelper.sleep(2000);
 
-        signInKpi.chooseCountry();
+        chooseCountry();
 
         if (exploreAppBtn == null) {
-            signInKpi.finishReturn("Button 'Explore the App' is null.", "click on sign in");
+            finishReturn("Button 'Explore the App' is null.", MainConstants.DEFERRED_SIGN_IN_NAME, MainConstants.SING_IN_TEST_ACTION);
             return false;
         }
 
@@ -63,23 +61,23 @@ public class DeferredSignInKPI extends KpiTest {
 
         TestManager.setStartTime(iosTestHelper.getResponseItem().getStartTime());
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
-        TestManager.write(TestManager.addLogParams(new Date(), "FirstSync", "", true));
+        iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
 
         iosTestHelper.waitForElementByNameExists("Network connection in progress", 15000, 0, true, null, 3);
 
         if (!iosTestHelper.waitForElementByNameGone("Network connection in progress", timeout * 10, 0, true, null, 3)) {
-            signInKpi.finishReturn("Network connection in progress is exist 5 min.", "FullSync");
+            finishReturn("Network connection in progress is exist 5 min.", MainConstants.DEFERRED_SIGN_IN_NAME, MainConstants.LIBRARY_FIRST_SYNC);
             return true;
         }
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         while (iosTestHelper.waitForElementByNameExists("Network connection in progress", 3000, 0, true, null, 3) != null) {
             if (!iosTestHelper.waitForElementByNameGone("Network connection in progress", timeout * 10, 0, true, null, 3)) {
-                signInKpi.finishReturn("Network connection in progress is exist 5 min.", "FullSync");
+                finishReturn("Network connection in progress is exist 5 min.", MainConstants.DEFERRED_SIGN_IN_NAME, MainConstants.LIBRARY_FULL_SYNC);
                 return true;
             }
             TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         }
-        TestManager.write(TestManager.addLogParams(new Date(), "FullSync", "", true));
+        iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.LIBRARY_FULL_SYNC, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
 
         return true;
     }
@@ -97,7 +95,7 @@ public class DeferredSignInKPI extends KpiTest {
         Element collection;
         while (true) {
             if (System.currentTimeMillis() - startTime > timeout * 2) {
-                signInKpi.finishReturn(" 'Collection' is null.", "FirstSync");
+                 finishReturn(" 'Collection' is null.", MainConstants.DEFERRED_SIGN_IN_NAME, MainConstants.LIBRARY_FIRST_SYNC);
                 return true;
             }
 
@@ -112,23 +110,23 @@ public class DeferredSignInKPI extends KpiTest {
         }
 
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
-        TestManager.write(TestManager.addLogParams(new Date(), "FirstSync", "", true));
+        iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
 
         iosTestHelper.waitForElementByNameExists("Network connection in progress", 15000, 0, true, null, 3);
 
         if (!iosTestHelper.waitForElementByNameGone("Network connection in progress", timeout * 10, 0, true, null, 3)) {
-            signInKpi.finishReturn("Network connection in progress is exist 5 min.", "FullSync");
+             finishReturn("Network connection in progress is exist 5 min.", MainConstants.DEFERRED_SIGN_IN_NAME, MainConstants.LIBRARY_FULL_SYNC);
             return true;
         }
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         while (iosTestHelper.waitForElementByNameExists("Network connection in progress", 3000, 0, true, null, 3) != null) {
             if (!iosTestHelper.waitForElementByNameGone("Network connection in progress", timeout * 10, 0, true, null, 3)) {
-                signInKpi.finishReturn("Network connection in progress is exist 5 min.", "FullSync");
+                 finishReturn("Network connection in progress is exist 5 min.", MainConstants.DEFERRED_SIGN_IN_NAME, MainConstants.LIBRARY_FULL_SYNC);
                 return true;
             }
             TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
         }
-        TestManager.write(TestManager.addLogParams(new Date(), "FullSync", "", true));
+        iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.LIBRARY_FULL_SYNC, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
         return true;
     }
 
@@ -136,7 +134,7 @@ public class DeferredSignInKPI extends KpiTest {
         Element collection = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionView, 10000, 0, null, 2);
         if (collection == null) {
             iosTestHelper.setEndTime();
-            iosTestHelper.failKpi("Load Samples");
+//            iosTestHelper.failKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_LOAD_SAMPLE, "");
             return false;
         }
 
@@ -150,7 +148,7 @@ public class DeferredSignInKPI extends KpiTest {
         if (element == null) {
             TestManager.setStartTime(0);
             TestManager.setEndTime(0);
-            iosTestHelper.failKpi("download Sample");
+            iosTestHelper.failKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_DOWNLOAD_SAMPLE, "");
             Element closeBtn = iosTestHelper.getElementByName("com.bn.NookApplication.btn bac", 0, true, null, 3);
             iosTestHelper.clickOnElement(closeBtn);
             return false;
@@ -160,12 +158,12 @@ public class DeferredSignInKPI extends KpiTest {
         element = iosTestHelper.waitForElementByNameVisible("Read", downloadTimeout, 0, true, null, 3);
         iosTestHelper.setEndTime();
         if (element == null) {
-            iosTestHelper.failKpi("download Sample");
+            iosTestHelper.failKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_DOWNLOAD_SAMPLE, "");
             Element closeBtn = iosTestHelper.getElementByName("com.bn.NookApplication.btn bac", 0, true, null, 3);
             iosTestHelper.clickOnElement(closeBtn);
             return false;
         }
-        iosTestHelper.passKpi("download Sample");
+        iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_DOWNLOAD_SAMPLE, "");
         return true;
     }
 
@@ -178,7 +176,7 @@ public class DeferredSignInKPI extends KpiTest {
             element = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 60000, toolbarIndex, null, 2);
 
             if (element == null) {
-                iosTestHelper.failKpi("open Sample");
+                iosTestHelper.failKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_OPEN_SAMPLE, "");
                 return false;
             }
         }
@@ -186,11 +184,11 @@ public class DeferredSignInKPI extends KpiTest {
         element = iosTestHelper.waitForElementByNameVisible(backButton, 60000, 0, true, toolbarIndex > -1 ? element : null, toolbarIndex > -1 ? 1 : 3);
         iosTestHelper.setEndTime();
         if(element == null) {
-            iosTestHelper.failKpi("open Sample");
+            iosTestHelper.failKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_OPEN_SAMPLE, "");
             return false;
         }
 
-        iosTestHelper.passKpi("open Sample");
+        iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_OPEN_SAMPLE, "");
         iosTestHelper.saveClickOnElement(element);
 
         iosTestHelper.sleep(3000);

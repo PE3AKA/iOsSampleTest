@@ -1,5 +1,6 @@
 package com.ios.testhelper.demo.kpi;
 
+import com.ios.testhelper.demo.MainConstants;
 import com.ios.testhelper.demo.PropertiesManager;
 import com.ios.testhelper.demo.TestManager;
 import com.ios.testhelper.demo.enums.ProductTypeEnum;
@@ -31,14 +32,14 @@ public class SignOutKpi extends KpiTest {
         iosTestHelper.setStartTime();
         element = iosTestHelper.waitForElementByNameVisible("Settings", 5000, 0, true, null, 3);
         iosTestHelper.setEndTime();
-        if(element == null) iosTestHelper.failKpi("SignOut");
+        if(element == null) iosTestHelper.failKpi(MainConstants.SIGN_OUT_TEST, MainConstants.SIGN_OUT_ACTION, "");
         iosTestHelper.assertNotNull(element);
         iosTestHelper.clickOnElement(element);
 
         iosTestHelper.setStartTime();
         element = iosTestHelper.waitForElementByNameVisible("Log out", 5000, 0, true, null, 3);
         iosTestHelper.setEndTime();
-        if(element == null) iosTestHelper.failKpi("SignOut");
+        if(element == null) iosTestHelper.failKpi(MainConstants.SIGN_OUT_TEST, MainConstants.SIGN_OUT_ACTION, "");
         iosTestHelper.assertNotNull(element);
         iosTestHelper.clickOnElement(element);
 
@@ -46,7 +47,7 @@ public class SignOutKpi extends KpiTest {
         iosTestHelper.sleep(1000);
         iosTestHelper.waitForElementByNameVisible(iosTestHelper.isIPad() ? "explore the app" : "signIn", 30000, 0, true, null, 2);
         iosTestHelper.setEndTime();
-        if(element == null) iosTestHelper.passKpi("SignOut");
+        if(element == null) iosTestHelper.passKpi(MainConstants.SIGN_OUT_TEST, MainConstants.SIGN_OUT_ACTION, "");
         return true;
     }
 }

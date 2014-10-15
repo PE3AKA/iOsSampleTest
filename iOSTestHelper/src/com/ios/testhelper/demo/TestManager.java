@@ -73,7 +73,7 @@ public class TestManager {
         return getInstance(iosTestHelper, mBuildId, mLogin, mPassword, mDeviceId, mHwDevice, mArgTimeout);
     }
 
-    public static ItemLog addLogParams(Date date, String testAction, String testData, boolean testResult){
+    public static ItemLog addLogParams(Date date, String testName, String testAction, String testData, boolean testResult){
         ItemLog itemLog = new ItemLog(propertiesManager);
         itemLog.setBuild(mBuildId);
         itemLog.setDeviceId(mDeviceId);
@@ -86,7 +86,7 @@ public class TestManager {
         itemLog.setStartTime(mStartTime);
         itemLog.setEndTime(mEndTime, 0);
         itemLog.setTestId(mTestId);
-        itemLog.setTestName(mTestName);
+        itemLog.setTestName(testName);
         itemLog.setTestAction(testAction);
         itemLog.setTestData(testData);
         itemLog.setTestResult(testResult);
