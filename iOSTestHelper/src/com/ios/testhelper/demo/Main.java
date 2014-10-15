@@ -54,7 +54,7 @@ public class Main {
             System.exit(0);
         }
         testName = initParams.getTestName();
-        if(testName == null) {
+        if(testName == null || !Params.getTestList().contains(testName)) {
             i("Looks like you forgot setup test name\n" +
                     "usage: " + Params.TEST + " signIn\n\n" +
                     "test list:\n" +
@@ -88,7 +88,7 @@ public class Main {
         final AlertHandler alertHandler = new AlertHandler();
 
         alertHandler.logMessage("Alert appeared");
-        alertHandler.takeScreenShot("alert " + System.currentTimeMillis());
+        alertHandler.takeScreenShot(alertHandler.getDate("-"), "_", alertHandler.getTime("-"), "_", "alert");
         AlertItem result = alertHandler.waitForElementByNameVisible("logging out will", 1, 0, false, null, 4);
         alertHandler.createElementNotNullCondition(result, new AlertCondition.ConditionResults() {
             @Override

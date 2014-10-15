@@ -52,7 +52,7 @@ public class InitParams {
     public String getResultPath() {
         if (resultPath == null)
             resultPath = propertiesManager.getProperty(ConfigurationParametersEnum.PATH_RESULT_FOLDER.name());
-        return resultPath;
+        return resultPath == null ? "testRuns" : resultPath;
     }
 
     public String getDevice() {

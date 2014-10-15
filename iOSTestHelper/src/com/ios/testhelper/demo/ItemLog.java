@@ -200,7 +200,7 @@ public class ItemLog {
             simpleDateFormat = new SimpleDateFormat(format);
             this.date = simpleDateFormat.format(d);
         }else{
-            simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             this.date = simpleDateFormat.format(d);
         }
     }
@@ -211,7 +211,7 @@ public class ItemLog {
             simpleTimeFormat = new SimpleDateFormat(format);
             this.time = simpleTimeFormat.format(t);
         }else{
-            simpleTimeFormat = new SimpleDateFormat("HH:mm:ss.SSS");
+            simpleTimeFormat = new SimpleDateFormat("HH-mm-ss");
             this.time = simpleTimeFormat.format(t);
         }
     }

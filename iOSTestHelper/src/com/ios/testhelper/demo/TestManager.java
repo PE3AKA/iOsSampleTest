@@ -2,6 +2,7 @@ package com.ios.testhelper.demo;
 
 import com.ios.testhelper.demo.helpers.ITest;
 
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -31,7 +32,9 @@ public class TestManager {
 
     private TestManager(ITest iosTestHelper){
         this.iosTestHelper = iosTestHelper;
-        fileWorker = new FileWorker("ios.csv", iosTestHelper);
+        File logs = new File("logs");
+        if(!logs.exists()) logs.mkdirs();
+        fileWorker = new FileWorker(logs.getAbsolutePath() + "/ios.csv", iosTestHelper);
         propertiesManager = new PropertiesManager();
     }
 
