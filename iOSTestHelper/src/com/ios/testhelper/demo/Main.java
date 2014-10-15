@@ -118,6 +118,9 @@ public class Main {
         alertHandler.returnBoolean(false);
 
         alertHandler.push(iosTestHelper);
+
+        iosTestHelper.cleanResultsFolder();
+
         iosTestHelper.launchServer();
     }
 
