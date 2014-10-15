@@ -28,7 +28,9 @@ public class Main {
     private static PropertiesManager propertiesManager;
 
     private static void init(String[] args){
-        InitParams initParams = new InitParams(args);
+        propertiesManager = new PropertiesManager();
+
+        InitParams initParams = new InitParams(args, propertiesManager);
 
 //        System.out.println("Args length:" + args.length);
         pathToiOSApp = initParams.getBuildPath();
@@ -60,7 +62,7 @@ public class Main {
             System.exit(0);
         }
 
-        propertiesManager = new PropertiesManager();
+//        propertiesManager = new PropertiesManager();
     }
 
     private static void log(String msg){
@@ -68,9 +70,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
-        File file = new File("config.properties");
-        i(file.getAbsolutePath() + " test " + file.exists());
         init(args);
 
         setUpIOsHelper();

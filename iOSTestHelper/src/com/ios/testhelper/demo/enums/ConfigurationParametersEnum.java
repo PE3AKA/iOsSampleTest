@@ -24,6 +24,10 @@ public enum  ConfigurationParametersEnum {
     TEST_RESULT_FIELD_NAME,
     TEST_CYCLE_FIELD_NAME,
 
+    BUILD_PATH,
+    PATH_RESULT_FOLDER,
+    DEVICE_ID,
+
     DUMP_KPI_INFO,
     LOGIN,
     PASSWORD,

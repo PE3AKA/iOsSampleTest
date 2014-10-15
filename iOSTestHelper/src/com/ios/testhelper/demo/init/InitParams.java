@@ -1,5 +1,8 @@
 package com.ios.testhelper.demo.init;
 
+import com.ios.testhelper.demo.PropertiesManager;
+import com.ios.testhelper.demo.enums.ConfigurationParametersEnum;
+
 import static net.bugs.testhelper.helpers.LoggerUtil.i;
 
 /**
@@ -10,8 +13,10 @@ public class InitParams {
     private String resultPath = null;
     private String device = null;
     private String testName = null;
+    private PropertiesManager propertiesManager = null;
 
-    public InitParams(String[] args) {
+    public InitParams(String[] args, PropertiesManager propertiesManager) {
+        this.propertiesManager = propertiesManager;
         if(args.length%2 != 0) {
             i("incorrect params.\n\n" +
                     "usage:\n" +
@@ -39,14 +44,20 @@ public class InitParams {
     }
 
     public String getBuildPath() {
+        if (buildPath == null)
+            buildPath = propertiesManager.getProperty(ConfigurationParametersEnum.BUILD_PATH.name());
         return buildPath;
     }
 
     public String getResultPath() {
+        if (resultPath == null)
+            resultPath = propertiesManager.getProperty(ConfigurationParametersEnum.PATH_RESULT_FOLDER.name());
         return resultPath;
     }
 
     public String getDevice() {
+        if (device == null)
+            device = propertiesManager.getProperty(ConfigurationParametersEnum.DEVICE_ID.name());
         return device;
     }
 
