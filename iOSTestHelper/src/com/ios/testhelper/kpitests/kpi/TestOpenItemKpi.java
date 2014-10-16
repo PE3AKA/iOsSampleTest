@@ -78,7 +78,7 @@ public class TestOpenItemKpi extends KpiTest {
             iosTestHelper.saveClickOnElement(buttons.get(0));
         }
         iosTestHelper.inputText(name + "\n", element);
-//        iosTestHelper.hideKeyboard();
+        iosTestHelper.hideKeyboard();
         iosTestHelper.setStartTime();
         Element collection = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionView, 10000, 0, null, 2);
         if(collection == null) {
