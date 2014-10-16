@@ -70,7 +70,7 @@ public class SignInKpi extends KpiTest {
 
         if(iosTestHelper.isIphone()) {
             iosTestHelper.sleep(1000);
-//            btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 0, true, null, 2);
+            btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 0, true, null, 2);
             iosTestHelper.saveClickOnElement(btnSignInDialog);
         }
 

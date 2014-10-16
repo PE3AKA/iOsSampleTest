@@ -78,7 +78,7 @@ public class TestOpenItemKpi extends KpiTest {
             iosTestHelper.saveClickOnElement(buttons.get(0));
         }
         iosTestHelper.inputText(name + "\n", element);
-        iosTestHelper.hideKeyboard();
+//        iosTestHelper.hideKeyboard();
         iosTestHelper.setStartTime();
         Element collection = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionView, 10000, 0, null, 2);
         if(collection == null) {
@@ -148,11 +148,17 @@ public class TestOpenItemKpi extends KpiTest {
         }
 
         iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
-        iosTestHelper.saveClickOnElement(element);
 
+        Element backBtn = iosTestHelper.waitForElementByNameVisible(backButton, 2000, 0, true, element, 1);
+        if(backBtn!=null)
+        if (toolbarIndex == 0 && !(backBtn.isVisible())) {
+            iosTestHelper.clickOnScreenCenter(0);
+            iosTestHelper.sleep(1000);
+        }
+
+        iosTestHelper.saveClickOnElement(element);
         iosTestHelper.sleep(3000);
     }
-
     private void failSearch(String name) {
         iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_SEARCH, name);
         TestManager.setStartTime(0);

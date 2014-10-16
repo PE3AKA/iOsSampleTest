@@ -32,7 +32,7 @@ public class ITest extends IOSTestHelper {
     public void hideKeyboard() {
         Element keyboard = waitForElementByClassExists(UIAElementType.UIAKeyboard, 1, 0, null, 2);
 
-        Element element = waitForElementByNameExists("Hide keyboard", 10000, 0, true, keyboard, 2);
+        Element element = waitForElementByNameExists("Hide keyboard", 4000, 0, true, keyboard, 2);
             if(element != null){
                 saveClickOnElement(element);
             }
