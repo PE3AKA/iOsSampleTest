@@ -116,7 +116,7 @@ public class Main {
 
         iosTestHelper.cleanResultsFolder();
 
-        iosTestHelper.launchServer();//false, false
+        iosTestHelper.launchServer();
     }
 
     private static void mainLogic() {
