@@ -1,6 +1,6 @@
-package com.ios.testhelper.demo;
+package com.ios.testhelper.kpitests;
 
-import com.ios.testhelper.demo.helpers.ITest;
+import com.ios.testhelper.kpitests.helpers.ITest;
 
 import java.io.File;
 import java.util.Date;

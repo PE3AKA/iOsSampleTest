@@ -1,4 +1,4 @@
-package com.ios.testhelper.demo.enums;
+package com.ios.testhelper.kpitests.enums;
 
 /**
  * Created by avsupport on 3/5/14.

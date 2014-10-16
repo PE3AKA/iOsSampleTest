@@ -1,4 +1,4 @@
-package com.ios.testhelper.demo;
+package com.ios.testhelper.kpitests;
 
 /**
  * Created by nikolai on 10.01.14.

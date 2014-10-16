@@ -1,7 +1,7 @@
-package com.ios.testhelper.demo;
+package com.ios.testhelper.kpitests;
 
 
-import com.ios.testhelper.demo.enums.ConfigurationParametersEnum;
+import com.ios.testhelper.kpitests.enums.ConfigurationParametersEnum;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

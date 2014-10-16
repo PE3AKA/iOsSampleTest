@@ -1,15 +1,13 @@
-package com.ios.testhelper.demo;
+package com.ios.testhelper.kpitests;
 
-import com.ios.testhelper.demo.enums.ProductTypeEnum;
-import com.ios.testhelper.demo.helpers.ITest;
-import com.ios.testhelper.demo.init.InitParams;
-import com.ios.testhelper.demo.init.Params;
-import com.ios.testhelper.demo.kpi.*;
+import com.ios.testhelper.kpitests.enums.ProductTypeEnum;
+import com.ios.testhelper.kpitests.helpers.ITest;
+import com.ios.testhelper.kpitests.init.InitParams;
+import com.ios.testhelper.kpitests.init.Params;
+import com.ios.testhelper.kpitests.kpi.*;
 import net.bugs.testhelper.ios.alert.AlertCondition;
 import net.bugs.testhelper.ios.alert.AlertHandler;
 import net.bugs.testhelper.ios.alert.AlertItem;
-
-import java.io.File;
 
 import static net.bugs.testhelper.helpers.LoggerUtil.i;
 

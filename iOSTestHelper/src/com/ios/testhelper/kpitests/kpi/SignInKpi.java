@@ -1,17 +1,14 @@
-package com.ios.testhelper.demo.kpi;
+package com.ios.testhelper.kpitests.kpi;
 
-import com.ios.testhelper.demo.MainConstants;
-import com.ios.testhelper.demo.enums.ConfigurationParametersEnum;
-import com.ios.testhelper.demo.PropertiesManager;
-import com.ios.testhelper.demo.TestManager;
-import com.ios.testhelper.demo.enums.ProductTypeEnum;
-import com.ios.testhelper.demo.helpers.ITest;
+import com.ios.testhelper.kpitests.MainConstants;
+import com.ios.testhelper.kpitests.enums.ConfigurationParametersEnum;
+import com.ios.testhelper.kpitests.PropertiesManager;
+import com.ios.testhelper.kpitests.TestManager;
+import com.ios.testhelper.kpitests.enums.ProductTypeEnum;
+import com.ios.testhelper.kpitests.helpers.ITest;
 import net.bugs.testhelper.ios.enums.UIAElementType;
 import net.bugs.testhelper.ios.item.Element;
 import net.bugs.testhelper.ios.item.ResponseItem;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 import static net.bugs.testhelper.helpers.LoggerUtil.i;
 
@@ -101,11 +98,11 @@ public class SignInKpi extends KpiTest {
 //                at net.bugs.testhelper.ios.exec.CommandsExecutor.waitAnswer(CommandsExecutor.java:118)
 //                at net.bugs.testhelper.ios.exec.CommandsExecutor.getResponseItem(CommandsExecutor.java:331)
 //                at net.bugs.testhelper.ios.exec.CommandsExecutor.getElementChildren(CommandsExecutor.java:763)
-//                at com.ios.testhelper.demo.kpi.SignInKpi.execute(SignInKpi.java:89)
-//                at com.ios.testhelper.demo.Main.startTest(Main.java:160)
-//                at com.ios.testhelper.demo.Main.startTest(Main.java:150)
-//                at com.ios.testhelper.demo.Main.mainLogic(Main.java:122)
-//                at com.ios.testhelper.demo.Main.main(Main.java:77)
+//                at com.ios.testhelper.kpitests.kpi.SignInKpi.execute(SignInKpi.java:89)
+//                at com.ios.testhelper.kpitests.Main.startTest(Main.java:160)
+//                at com.ios.testhelper.kpitests.Main.startTest(Main.java:150)
+//                at com.ios.testhelper.kpitests.Main.mainLogic(Main.java:122)
+//                at com.ios.testhelper.kpitests.Main.main(Main.java:77)
 //                at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 //                at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
 //                at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

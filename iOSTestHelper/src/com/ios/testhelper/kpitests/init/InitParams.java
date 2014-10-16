@@ -1,7 +1,7 @@
-package com.ios.testhelper.demo.init;
+package com.ios.testhelper.kpitests.init;
 
-import com.ios.testhelper.demo.PropertiesManager;
-import com.ios.testhelper.demo.enums.ConfigurationParametersEnum;
+import com.ios.testhelper.kpitests.PropertiesManager;
+import com.ios.testhelper.kpitests.enums.ConfigurationParametersEnum;
 
 import static net.bugs.testhelper.helpers.LoggerUtil.i;
 

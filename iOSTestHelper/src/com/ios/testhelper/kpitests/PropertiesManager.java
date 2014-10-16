@@ -19,7 +19,7 @@
  along with Gobrotium project.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.ios.testhelper.demo;
+package com.ios.testhelper.kpitests;
 
 
 import java.io.File;

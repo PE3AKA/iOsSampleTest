@@ -1,4 +1,4 @@
-package com.ios.testhelper.demo.init;
+package com.ios.testhelper.kpitests.init;
 
 /**
  * Created by avsupport on 10/9/14.

@@ -1,13 +1,12 @@
-package com.ios.testhelper.demo.helpers;
+package com.ios.testhelper.kpitests.helpers;
 
-import com.ios.testhelper.demo.TestManager;
+import com.ios.testhelper.kpitests.TestManager;
 import net.bugs.testhelper.IOSTestHelper;
 import net.bugs.testhelper.ios.enums.UIAElementType;
 import net.bugs.testhelper.ios.item.Element;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 import static net.bugs.testhelper.helpers.LoggerUtil.i;
 

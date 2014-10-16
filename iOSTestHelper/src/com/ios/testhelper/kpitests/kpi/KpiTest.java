@@ -1,9 +1,9 @@
-package com.ios.testhelper.demo.kpi;
+package com.ios.testhelper.kpitests.kpi;
 
-import com.ios.testhelper.demo.PropertiesManager;
-import com.ios.testhelper.demo.TestManager;
-import com.ios.testhelper.demo.enums.ProductTypeEnum;
-import com.ios.testhelper.demo.helpers.ITest;
+import com.ios.testhelper.kpitests.PropertiesManager;
+import com.ios.testhelper.kpitests.TestManager;
+import com.ios.testhelper.kpitests.enums.ProductTypeEnum;
+import com.ios.testhelper.kpitests.helpers.ITest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
