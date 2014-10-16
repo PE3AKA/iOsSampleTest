@@ -36,8 +36,19 @@ public class SignOutKpi extends KpiTest {
         iosTestHelper.assertNotNull(element);
         iosTestHelper.clickOnElement(element);
 
+        int [] deviceSizes = iosTestHelper.getScreenSize();
         iosTestHelper.setStartTime();
-        element = iosTestHelper.waitForElementByNameVisible("Log out", 5000, 0, true, null, 3);
+
+        if(deviceSizes[1] == 480){
+            element = iosTestHelper.waitForElementByClassExists("UIATableView", 10000, 0, null, 2);
+            if(element != null) {
+                ArrayList<Element> elements = iosTestHelper.getElementChildren(element);
+                element = elements.get(elements.size() - 1);
+            }
+        }else {
+            element = iosTestHelper.waitForElementByNameVisible("Log out", 10000, 0, true, null, 3);
+        }
+
         iosTestHelper.setEndTime();
         if(element == null) iosTestHelper.failKpi(MainConstants.SIGN_OUT_TEST, MainConstants.SIGN_OUT_ACTION, "");
         iosTestHelper.assertNotNull(element);
