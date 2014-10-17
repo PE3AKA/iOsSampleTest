@@ -8,6 +8,7 @@ public class Params {
     public static final String RESULT = "-r";
     public static final String DEVICE = "-d";
     public static final String TEST = "-t";
+    public static final String INSTALL = "-i";
 
     public static final String TEST_SIGN_IN = "signIn";
     public static final String TEST_DEFERREF_SIGN_IN = "deferredSignIn";

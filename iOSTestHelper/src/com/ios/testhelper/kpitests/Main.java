@@ -21,6 +21,8 @@ public class Main {
     private static String pathToiOSApp = "";
     private static String pathToFolderResults = "";
     private static String testName = "";
+    private static String install = "";
+    private static boolean installApp = false;
     private static ITest iosTestHelper;
     private static TestManager testManager;
     private static PropertiesManager propertiesManager;
@@ -57,6 +59,12 @@ public class Main {
                     "usage: " + Params.TEST + " signIn\n\n" +
                     "test list:\n" +
                      Params.getTestList());
+            System.exit(0);
+        }
+        install = initParams.getInstallApp();
+        if(install == null ) {
+            i("Looks like you forgot setup install app parameter\n" +
+                    "usage: " + Params.INSTALL + " 'true' or 'false'");
             System.exit(0);
         }
     }
@@ -116,7 +124,12 @@ public class Main {
 
         iosTestHelper.cleanResultsFolder();
 
-        iosTestHelper.launchServer();
+        if (install.equals("true"))
+            installApp = true;
+        if(install.equals("false"))
+            installApp = false;
+
+        iosTestHelper.launchServer(installApp, true);
     }
 
     private static void mainLogic() {

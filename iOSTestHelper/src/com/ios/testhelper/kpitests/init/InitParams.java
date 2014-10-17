@@ -13,6 +13,8 @@ public class InitParams {
     private String resultPath = null;
     private String device = null;
     private String testName = null;
+    private String installApp = null;
+
     private PropertiesManager propertiesManager = null;
 
     public InitParams(String[] args, PropertiesManager propertiesManager) {
@@ -39,6 +41,8 @@ public class InitParams {
                 resultPath = args[currentParamIndex];
             } else if(param.equals(Params.TEST)) {
                 testName = args[currentParamIndex];
+            } else if(param.equals(Params.INSTALL)){
+                installApp = args[currentParamIndex];
             }
         }
     }
@@ -63,5 +67,9 @@ public class InitParams {
 
     public String getTestName() {
         return testName;
+    }
+
+    public String getInstallApp(){
+        return installApp;
     }
 }

@@ -34,7 +34,7 @@ public class TestManager {
         this.iosTestHelper = iosTestHelper;
         File logs = new File("logs");
         if(!logs.exists()) logs.mkdirs();
-        fileWorker = new FileWorker(logs.getAbsolutePath() + "/ios.csv", iosTestHelper);
+        fileWorker = new FileWorker(logs.getAbsolutePath() + "/kpi.txt", iosTestHelper);
         propertiesManager = new PropertiesManager();
     }
 
