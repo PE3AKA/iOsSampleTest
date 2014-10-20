@@ -129,7 +129,7 @@ public class Main {
         if(install.equals("false"))
             installApp = false;
 
-        iosTestHelper.launchServer(installApp, true);
+        iosTestHelper.launchServer(installApp, true, 0);
     }
 
     private static void mainLogic() {
