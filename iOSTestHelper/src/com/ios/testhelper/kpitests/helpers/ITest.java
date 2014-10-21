@@ -48,6 +48,10 @@ public class ITest extends IOSTestHelper {
 
     private boolean clickToolbarButtonByIndex(int index) {
         Element element = waitForElementByClassExists(UIAElementType.UIAToolBar, 10000, 0, null, 2);
+        if(element == null) {
+            i("Element UIAToolBar was not found!");
+            return false;
+        }
         ArrayList<Element> buttons = getElementChildrenByType(element, UIAElementType.UIAButton);
         i("Toolbar was found");
         if(buttons.size() < 1) {
@@ -72,8 +76,10 @@ public class ITest extends IOSTestHelper {
     }
 
     public boolean goToLibrary() {
-        if(waitForElementByClassExists(UIAElementType.UIASearchBar, 5000, 0, null, 3) != null) return true;
-        openMenu();
+        if(waitForElementByClassExists(UIAElementType.UIASearchBar, 5000, 0, null, 3) != null)
+            return true;
+        if(!openMenu())
+            return false;
         Element library = waitForElementByNameVisible("Library", 10000, 0, true, null, 3);
         saveClickOnElement(library);
         return waitForElementByClassExists(UIAElementType.UIASearchBar, 10000, 0, null, 3) != null;

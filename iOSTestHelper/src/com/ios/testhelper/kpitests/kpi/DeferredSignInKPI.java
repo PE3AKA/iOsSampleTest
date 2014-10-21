@@ -48,7 +48,7 @@ public class DeferredSignInKPI extends SignInKpi {
 
         iosTestHelper.sleep(2000);
 
-        chooseCountry();
+//        chooseCountry();
 
         if (exploreAppBtn == null) {
             finishReturn("Button 'Explore the App' is null.", MainConstants.DEFERRED_SIGN_IN_NAME, MainConstants.SING_IN_TEST_ACTION);

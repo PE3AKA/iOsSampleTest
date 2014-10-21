@@ -28,7 +28,7 @@ public class SignInKpi extends KpiTest {
 
         iosTestHelper.sleep(2000);
 
-        chooseCountry();
+//        chooseCountry();
 
         if(btnSignIn == null) {
             finishReturn("Button 'Sign in' is null.", MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION);

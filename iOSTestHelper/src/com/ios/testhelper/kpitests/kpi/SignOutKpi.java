@@ -46,7 +46,7 @@ public class SignOutKpi extends KpiTest {
                 element = elements.get(elements.size() - 1);
             }
         }else {
-            element = iosTestHelper.waitForElementByNameVisible("Log out", 10000, 0, true, null, 3);
+            element = iosTestHelper.waitForElementByNameVisible("logout", 10000, 0, true, null, 3);
         }
 
         iosTestHelper.setEndTime();
