@@ -26,7 +26,13 @@ public class SignOutKpi extends KpiTest {
         if(buttons.size() > 0) {
             iosTestHelper.saveClickOnElement(buttons.get(0));
         }
-        iosTestHelper.hideKeyboard();
+
+        if(iosTestHelper.isIphone()){
+            Element cancelBtn = iosTestHelper.waitForElementByNameExists("Cancel", 1000, 0, true, null, 3);
+            iosTestHelper.saveClickOnElement(cancelBtn);
+        }
+
+//        iosTestHelper.hideKeyboard();
         iosTestHelper.openMenu();
 
         iosTestHelper.setStartTime();

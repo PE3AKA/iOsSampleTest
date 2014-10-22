@@ -161,7 +161,7 @@ public class SignInKpi extends KpiTest {
 
     protected void finishReturn(String msgLog, String testName, String testAction){
         i(msgLog);
-        TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
+        TestManager.setEndTime(System.currentTimeMillis());
         iosTestHelper.failKpi(testName, testAction, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
     }
 }

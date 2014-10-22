@@ -4,6 +4,7 @@ import com.ios.testhelper.kpitests.TestManager;
 import net.bugs.testhelper.IOSTestHelper;
 import net.bugs.testhelper.ios.enums.UIAElementType;
 import net.bugs.testhelper.ios.item.Element;
+import net.bugs.testhelper.ios.item.ElementForWait;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +17,18 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
 public class ITest extends IOSTestHelper {
     public ITest(String pathToApplicationOrBundle, String pathToResultsFolder, String deviceUUID) {
         super(pathToApplicationOrBundle, pathToResultsFolder, deviceUUID);
+    }
+
+    public boolean saveClickAndWaitElement(Element element, ElementForWait parent, ElementForWait elementForWait){
+        if(element == null) {
+            i("can not click to element, because element is null");
+            return false;
+        }
+
+        if(!element.isVisible())
+            return super.clickOnElementAndWaitElement(element, parent, elementForWait);
+        else
+            return super.clickOnElementByXYAndWaitElement(element, 0.5, 0.5, parent, elementForWait);
     }
 
     public void saveClickOnElement(Element element){

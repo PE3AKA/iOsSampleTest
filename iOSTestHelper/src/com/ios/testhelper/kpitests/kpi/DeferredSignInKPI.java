@@ -167,6 +167,13 @@ public class DeferredSignInKPI extends SignInKpi {
     }
 
     private boolean deferredOpenSample(long timeout,  String backButton, int toolbarIndex){
+        // swipe up if iphone
+        if(iosTestHelper.isIphone()){
+            Element scrollView = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAScrollView, 1000, 0, null, 3);
+            if(scrollView != null)
+                iosTestHelper.scrollUpInsideElement(scrollView, scrollView.getHeight()*3, 3);
+        }
+
         Element element = iosTestHelper.waitForElementByNameVisible("Read", timeout, 0, true, null, 3);
         iosTestHelper.saveClickOnElement(element);
         iosTestHelper.setStartTime();

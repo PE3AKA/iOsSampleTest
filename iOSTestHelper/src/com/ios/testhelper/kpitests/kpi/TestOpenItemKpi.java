@@ -66,12 +66,21 @@ public class TestOpenItemKpi extends KpiTest {
     private void openItemKpi(String name, String backButton, int toolbarIndex, int downloadTimeout) {
         iosTestHelper.goToLibrary();
         if (iosTestHelper.isIphone()) {
-            Element toolbar = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 10000, 1, null, 2);
+            Element toolbar = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 10000, 0, null, 2);
             if (toolbar != null) {
+                while(iosTestHelper.waitForElementByNameExists("Network connection in progress", 3000, 0, true, null, 3) != null) {
+                    if(!iosTestHelper.waitForElementByNameGone("Network connection in progress", 1000, 0, true, null, 3)) {
+                        break;
+                    }
+                }
                 iosTestHelper.saveClickOnElement(iosTestHelper.waitForElementByNameVisible("Search", 1, 0, true, toolbar, 1));
                 iosTestHelper.sleep(1000);
             }
         }
+
+        //---------------------
+        //Search event
+        //---------------------
         Element element = iosTestHelper.waitForElementByClassExists(UIAElementType.UIASearchBar, 100000, 0, null, 3);
         iosTestHelper.saveClickOnElement(element);
         ArrayList<Element> buttons = iosTestHelper.getElementChildrenByType(element, UIAElementType.UIAButton);
@@ -80,16 +89,18 @@ public class TestOpenItemKpi extends KpiTest {
         }
         iosTestHelper.inputText(name, element);
 
-        Element searchBtn = iosTestHelper.getElementByName("Search", 0, true, null, 5);
-        if(searchBtn == null)
+        Element keyboard = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAKeyboard, 1000, 0, null, 3);
+        Element searchBtn = iosTestHelper.getElementByName("Search", 0, true, keyboard, 5);
+        if(searchBtn == null) {
             i("Can not click on search button");
-
-        //        ElementForWait elementForWait = new ElementForWait(ElementForWait.QueryType.NAME, "Library Results (", 10000, 0, 4, false);
-        //        iosTestHelper.setStartTime();
+            TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
+            failSearch(name);
+            return;
+        }
 
         ElementForWait parentForWaitElement = new ElementForWait(ElementForWait.QueryType.CLASS, "UIACollectionView", 1, 0, 2, false);
         ElementForWait elementForWait = new ElementForWait(ElementForWait.QueryType.CLASS, "UIACollectionCell", 20000, 0, 1, false);
-        if(!iosTestHelper.clickOnElementAndWaitElement(searchBtn, parentForWaitElement, elementForWait)){
+        if(!iosTestHelper.clickOnElementAndWaitElement(searchBtn, parentForWaitElement, elementForWait)) {
             TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
             failSearch(name);
             return;
@@ -100,32 +111,16 @@ public class TestOpenItemKpi extends KpiTest {
             iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_SEARCH, name);
         }
 
-//        iosTestHelper.hideKeyboard();
-//        iosTestHelper.setStartTime();
         Element collection = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionView, 10000, 0, null, 2);
-//        if (collection == null) {
-//            iosTestHelper.setEndTime();
-//            failSearch(name);
-//            return;
-//        }
-//        ArrayList<Element> elements = iosTestHelper.getElementChildren(collection);
-//        i("Count collection cell:" + elements.size());
-//
-//        element = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionCell, 10000, 0, collection, 1);
-//        iosTestHelper.setEndTime();
-//        if (element == null) {
-//            failSearch(name);
-//            return;
-//        } else {
-//            iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_SEARCH, name);
-//        }
 
         i("element is visible?: " + element.isVisible());
         iosTestHelper.sleep(3000);
         element = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIACollectionCell, 10000, 0, collection, 1);
-//        iosTestHelper.longClickOnElement(element, 0.5, 0.5, 4);
         iosTestHelper.longClickOnElementByXY(element, 0.5, 0.5, 4);
 
+        //---------------------
+        //Download event
+        //---------------------
         element = iosTestHelper.waitForElementByNameVisible("Download", 10000, 0, true, null, 3);
         if (element == null) {
             TestManager.setStartTime(0);
@@ -136,10 +131,9 @@ public class TestOpenItemKpi extends KpiTest {
             iosTestHelper.clickOnElement(closeBtn);
             return;
         }
-//        iosTestHelper.saveClickOnElement(element);
-//        iosTestHelper.setStartTime();
+
         ElementForWait readBtn = new ElementForWait(ElementForWait.QueryType.NAME, "Read", downloadTimeout, 0, 3, true);
-        if(!iosTestHelper.clickOnElementByXYAndWaitElement(element, 0.5, 0.5, null, readBtn)){
+        if(!iosTestHelper.saveClickAndWaitElement(element, null, readBtn)) {
             iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_DOWNLOAD, name);
             TestManager.setStartTime(0);
             TestManager.setEndTime(0);
@@ -153,34 +147,23 @@ public class TestOpenItemKpi extends KpiTest {
             iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_DOWNLOAD, name);
         }
 
+        // swipe up if iphone
+        if(iosTestHelper.isIphone()){
+            Element scrollView = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAScrollView, 1000, 0, null, 3);
+            iosTestHelper.scrollUpInsideElement(scrollView, scrollView.getHeight()*3, 3);
+        }
+
+        //---------------------
+        //Read event
+        //---------------------
         element = iosTestHelper.waitForElementByNameVisible("Read", downloadTimeout, 0, true, null, 3);
-//        iosTestHelper.setEndTime();
-//        if (element == null) {
-//            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_DOWNLOAD, name);
-//            TestManager.setStartTime(0);
-//            TestManager.setEndTime(0);
-//            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
-//            Element closeBtn = iosTestHelper.getElementByName("com.bn.NookApplication.btn bac", 0, true, null, 3);
-//            iosTestHelper.clickOnElement(closeBtn);
-//            return;
-//        }
-
-//        iosTestHelper.saveClickOnElement(element);
-//        iosTestHelper.setStartTime();
         ElementForWait toolbarParent = null;
-//        Element toolbar = null;
         if (toolbarIndex > -1) {
-//            toolbar = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 60000, toolbarIndex, null, 2);
             toolbarParent = new ElementForWait(ElementForWait.QueryType.CLASS, "UIAToolBar", 1, toolbarIndex, 2, false);
-
-//            if (toolbar == null) {
-//                iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
-//                return;
-//            }
         }
 
         ElementForWait backBtnWaitElement = new ElementForWait(ElementForWait.QueryType.NAME, backButton, 60000, 0, toolbarIndex > -1 ? 1 : 3, true);
-        if(!iosTestHelper.clickOnElementByXYAndWaitElement(element, 0.5, 0.5, toolbarIndex > -1 ? toolbarParent : null, backBtnWaitElement)){
+        if(!iosTestHelper.saveClickAndWaitElement(element, toolbarIndex > -1 ? toolbarParent : null, backBtnWaitElement)) {
             TestManager.setStartTime(iosTestHelper.getResponseItem().getStartTime());
             TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
             iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
@@ -191,24 +174,19 @@ public class TestOpenItemKpi extends KpiTest {
             iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
         }
 
+        //---------------------
+        //Click on back button
+        //---------------------
         Element toolbar = null;
         if(toolbarIndex > -1) {
-            toolbar = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 60000, toolbarIndex, null, 2);
+            toolbar = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAToolBar, 6000, toolbarIndex, null, 2);
         }
-        element = iosTestHelper.waitForElementByNameVisible(backButton, 60000, 0, true, toolbarIndex > -1 ? toolbar : null, toolbarIndex > -1 ? 1 : 3);
-//        iosTestHelper.setEndTime();
-//        if (element == null) {
-//            iosTestHelper.failKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
-//            return;
-//        }
-//        iosTestHelper.passKpi(this.testName, MainConstants.OPEN_ITEM_OPEN, name);
 
-
-
-        if (toolbarIndex == 0 && (iosTestHelper.waitForElementByNameVisible(backButton, 0, 0, true, toolbar, 1)==null)) {
+        element = iosTestHelper.waitForElementByNameVisible(backButton, 6000, 0, true, toolbarIndex > -1 ? toolbar : null, toolbarIndex > -1 ? 1 : 3);
+        if(element == null) {
             i("NOT VISIBLE");
             iosTestHelper.clickOnScreenCenter(0);
-            iosTestHelper.sleep(1000);
+            element = iosTestHelper.waitForElementByNameVisible(backButton, 3000, 0, true, toolbarIndex > -1 ? toolbar : null, toolbarIndex > -1 ? 1 : 3);
         }
 
         iosTestHelper.saveClickOnElement(element);
