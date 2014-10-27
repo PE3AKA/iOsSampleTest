@@ -12,6 +12,7 @@ public class TestManager {
     private static volatile TestManager instance;
 
     private static FileWorker fileWorker;
+    private static FileWorker fileWorkerStress;
     private static String mDeviceId = "";
     private static String mBuildId = "";
     private static String mLogin = "";
@@ -30,11 +31,12 @@ public class TestManager {
     private static String mTestId;
     private static String mTestName;
 
-    private TestManager(ITest iosTestHelper){
+    private TestManager(ITest iosTestHelper) {
         this.iosTestHelper = iosTestHelper;
         File logs = new File("logs");
         if(!logs.exists()) logs.mkdirs();
         fileWorker = new FileWorker(logs.getAbsolutePath() + "/kpi.txt", iosTestHelper);
+        fileWorkerStress = new FileWorker(logs.getAbsolutePath() + "/stress.txt", iosTestHelper);
         propertiesManager = new PropertiesManager();
     }
 
@@ -105,6 +107,10 @@ public class TestManager {
 
     public static void write(ItemLog itemLog){
             fileWorker.writeLog(itemLog);
+    }
+
+    public static void writeStress(ItemLog itemLog){
+        fileWorkerStress.writeLog(itemLog);
     }
 
     public ITest getTestHelper() {

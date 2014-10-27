@@ -19,8 +19,8 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
  * Created by nikolai on 10/27/14.
  */
 public class OpenRandomContent extends KpiTest {
-    private enum State{SUCCESS, ERROR}
-    private State currentState = State.SUCCESS;
+    private enum State{DOWNLOAD_SUCCESS, DOWNLOAD_ERROR, DOWNLOAD_MISSING}
+    private State currentState = State.DOWNLOAD_SUCCESS;
 
     private static final int DRP_READER = 1;
     private static final int EPUB_READER = 0;
@@ -99,7 +99,7 @@ public class OpenRandomContent extends KpiTest {
         bookName = getBookName();
 
         if(element == null && iosTestHelper.waitForElementByNameVisible("Read", 10000, 0, true, null, 3) != null) {
-            currentState = State.SUCCESS;
+            currentState = State.DOWNLOAD_MISSING;
             return false;
         }
 
@@ -107,7 +107,7 @@ public class OpenRandomContent extends KpiTest {
             report("Download", bookName == null ? "" : bookName, false);
             Element closeBtn = iosTestHelper.getElementByName("com.bn.NookApplication.btn bac", 0, true, null, 3);
             iosTestHelper.clickOnElement(closeBtn);
-            currentState = State.ERROR;
+            currentState = State.DOWNLOAD_ERROR;
             return false;
         }
 
@@ -116,8 +116,11 @@ public class OpenRandomContent extends KpiTest {
             report("Download", bookName == null ? "" : bookName, false);
             Element closeBtn = iosTestHelper.getElementByName("com.bn.NookApplication.btn bac", 0, true, null, 3);
             iosTestHelper.clickOnElement(closeBtn);
-            currentState = State.ERROR;
+            currentState = State.DOWNLOAD_ERROR;
             return false;
+        }else{
+            report("Download", bookName == null ? "" : bookName, true);
+            currentState = State.DOWNLOAD_SUCCESS;
         }
 
         return true;
@@ -128,8 +131,7 @@ public class OpenRandomContent extends KpiTest {
      * @return index reader
      */
     protected int openItem() {
-        // swipe up if iphone
-        if(iosTestHelper.isIphone()) {
+        if(iosTestHelper.isIphone() && currentState != State.DOWNLOAD_MISSING) {
             Element scrollView = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAScrollView, 1000, 0, null, 3);
             iosTestHelper.scrollUpInsideElement(scrollView, scrollView.getHeight()*3, 3);
         }
@@ -138,21 +140,22 @@ public class OpenRandomContent extends KpiTest {
         iosTestHelper.saveClickOnElement(element);
         if(iosTestHelper.waitForElementByNameExists("Opening eBook...", 10000, 0, true, null, 3) != null) {
             if(!iosTestHelper.waitForElementByNameGone("Opening eBook...", 60000, 0, true, null, 3)){
+                report("Open", bookName == null ? "" : bookName, false);
                 return -1;
             }
         }
 
         Element parentAddBookmark = iosTestHelper.waitForElementByClassExists("UIAScrollView", 1, 0, null, 3);
-//        ElementForWait parentForWait = new ElementForWait(ElementForWait.QueryType.CLASS, "UIAScrollView", 1, 0, 3, true);
-//        ElementForWait elementForWait = new ElementForWait(ElementForWait.QueryType.NAME, "Add bookmark", 30000, 0, 2, true); // todo
-
         if(iosTestHelper.waitForElementByNameExists("Back to library", 5000, 0, true, null, 3) != null ||
                 iosTestHelper.waitForElementByNameExists("Back to Library", 5000, 0, true, null, 3) != null) {
+            report("Open", bookName == null ? "" : bookName, true);
             return EPUB_READER;
         } else if(iosTestHelper.waitForElementByNameExists("Add bookmark", 10000, 0, true, parentAddBookmark, 2) != null) {
+            report("Open", bookName == null ? "" : bookName, true);
             return DRP_READER;
         }
-        else return -1;
+        else
+            return -1;
     }
 
     protected boolean closeBook(int iReader, String backButton) {
@@ -177,15 +180,20 @@ public class OpenRandomContent extends KpiTest {
             }
         }
 
-        if(element == null)
+        if(element == null) {
+            report("CloseBook", bookName == null ? "" : bookName, false);
             return false;
+        }
 
         iosTestHelper.saveClickOnElement(element);
 
         Element collection = waitForFillContainer(UIAElementType.UIACollectionView, 30000, 0, null, 2);
         if (collection == null) {
             i("Collection is null");
+            report("CloseBook", bookName == null ? "" : bookName, false);
             return false;
+        }else {
+            report("CloseBook", bookName == null ? "" : bookName, true);
         }
 
         return true;
@@ -209,7 +217,7 @@ public class OpenRandomContent extends KpiTest {
         iosTestHelper.longClickOnElement(element, 4);
 
         downloadItem(500000);
-        if(currentState == State.ERROR)
+        if(currentState == State.DOWNLOAD_ERROR)
             return false;
 
         int iReader = openItem();
@@ -246,6 +254,7 @@ public class OpenRandomContent extends KpiTest {
 
         for(int indexCycle = 0; indexCycle < 100; indexCycle++) {
             testCycle = indexCycle;
+            currentState = State.DOWNLOAD_SUCCESS;
             if(!randomOpenBook()) {
                 reLaunchApp();
             }
@@ -258,9 +267,7 @@ public class OpenRandomContent extends KpiTest {
     }
 
     protected void reLaunchApp() {
-        iosTestHelper.deactivateAppForDuration(2000);
         iosTestHelper.stopInstruments();
         iosTestHelper.launchServer(false, true, 0);
-
     }
 }

@@ -126,6 +126,6 @@ public class ITest extends IOSTestHelper {
     }
 
     public void reportStress(String testName, String testAction, String testData, String testType, String testCycle, boolean testResult) {
-        TestManager.write(TestManager.addLogParams(new Date(), testName, testAction, testData, testType, testCycle, testResult));
+        TestManager.writeStress(TestManager.addLogParams(new Date(), testName, testAction, testData, testType, testCycle, testResult));
     }
 }
