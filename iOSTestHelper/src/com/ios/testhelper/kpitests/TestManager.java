@@ -1,6 +1,9 @@
 package com.ios.testhelper.kpitests;
 
 import com.ios.testhelper.kpitests.helpers.ITest;
+import net.bugs.testhelper.ios.alert.AlertCondition;
+import net.bugs.testhelper.ios.alert.AlertHandler;
+import net.bugs.testhelper.ios.alert.AlertItem;
 
 import java.io.File;
 import java.util.Date;
@@ -21,6 +24,12 @@ public class TestManager {
     private static String mNet = "";
     private static String mArgTimeout = "";
     public static int mTimeout = 0;
+
+    /**
+     * params
+     */
+    private static String mPathToiOSApp = "";
+    private static String mPathToFolderResults = "";
 
     public static PropertiesManager propertiesManager;
     private static long mStartTime = 0;
@@ -45,19 +54,22 @@ public class TestManager {
     }
 
     public static TestManager getInstance(ITest $iosTestHelper,
-                                          final String buildId,
+                                          final String pathToiOSApp,
                                           final String login,
                                           final String password,
                                           final String deviceId,
-                                          final String hwDevice,
+                                          final String pathToFolderResults,
                                           final String timeout){
         iosTestHelper = $iosTestHelper;
+        mPathToiOSApp = pathToiOSApp;
+        mPathToFolderResults = pathToFolderResults;
         if(instance == null) {
             synchronized (TestManager.class) {
                 if (instance == null)
                     instance = new TestManager(iosTestHelper);
             }
         }
+
         if(mDeviceId.length() == 0) {
             mArgTimeout = timeout;
             mDeviceId = deviceId;
@@ -72,6 +84,47 @@ public class TestManager {
             mPassword = password;
         }
         return instance;
+    }
+
+    public static void setUpIOsHelper(boolean installApp) {
+        iosTestHelper = new ITest(mPathToiOSApp, mPathToFolderResults, mDeviceId);
+
+        final AlertHandler alertHandler = new AlertHandler();
+
+        alertHandler.logMessage("Alert appeared");
+        alertHandler.takeScreenShot(alertHandler.getDate("-"), "_", alertHandler.getTime("-"), "_", "alert");
+        AlertItem result = alertHandler.waitForElementByNameVisible("logging out will", 1, 0, false, null, 4);
+        alertHandler.createElementNotNullCondition(result, new AlertCondition.ConditionResults() {
+            @Override
+            public void positiveResult() {
+                final AlertItem buttonOk = alertHandler.waitForElementByNameVisible("OK", 1, 0, false, null, 4);
+                alertHandler.createElementNotNullCondition(buttonOk, new AlertCondition.ConditionResults() {
+                    @Override
+                    public void positiveResult() {
+                        alertHandler.clickOnElementByXY(buttonOk, 0.5, 0.5);
+                        alertHandler.returnBoolean(true);
+                    }
+
+                    @Override
+                    public void negativeResult() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void negativeResult() {
+
+            }
+        });
+
+        alertHandler.returnBoolean(false);
+
+        alertHandler.push(iosTestHelper);
+
+        iosTestHelper.cleanResultsFolder();
+
+        iosTestHelper.launchServer(installApp, true, 0);
     }
 
     public static TestManager getInstance() {

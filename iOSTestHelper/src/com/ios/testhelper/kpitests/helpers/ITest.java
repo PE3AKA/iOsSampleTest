@@ -8,6 +8,7 @@ import net.bugs.testhelper.ios.item.ElementForWait;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import static net.bugs.testhelper.helpers.LoggerUtil.i;
 
@@ -15,8 +16,50 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
  * Created by avsupport on 10/9/14.
  */
 public class ITest extends IOSTestHelper {
+    public static final int EXTRA_SMALL_FONT = 0;
+    public static final int SMALL_FONT = 1;
+    public static final int MEDIUM_SMALL_FONT = 2;
+    public static final int MEDIUM_LARGE_FONT = 3;
+    public static final int LARGE_FONT = 4;
+    public static final int EXTRA_LARGE_FONT = 5;
+
+    public static final int SMALL_MARGIN = 0;
+    public static final int MEDIUM_MARGIN = 1;
+    public static final int LARGE_MARGIN = 2;
+
+    public static final int SINGLE_LINE_SPACING = 0;
+    public static final int ONE_AND_HALF_LINES_SPACING = 1;
+    public static final int MULTIPLE_LINE_SPACING = 2;
+
+    public static final int SWIPE_UP = 0;
+    public static final int SWIPE_DOWN = 1;
+
     public ITest(String pathToApplicationOrBundle, String pathToResultsFolder, String deviceUUID) {
         super(pathToApplicationOrBundle, pathToResultsFolder, deviceUUID);
+    }
+
+    public int generateRandom(int min, int max){
+        Random random = new Random();
+        int randomIndex = random.nextInt((max - min)+1) + min;
+        return randomIndex;
+    }
+
+    public void randomSwipe(Element element, int swipeSide) {
+        int randomIndex = generateRandom(1, 5);
+        switch (swipeSide){
+            case SWIPE_UP:
+                while(randomIndex != 0) {
+                    super.scrollUpInsideElement(element, element.getHeight(), 1);
+                    randomIndex--;
+                }
+                break;
+            case SWIPE_DOWN:
+                while(randomIndex != 0) {
+                    super.scrollDownInsideElement(element, element.getHeight(), 1);
+                    randomIndex--;
+                }
+                break;
+        }
     }
 
     public boolean saveClickAndWaitElement(Element element, ElementForWait parent, ElementForWait elementForWait){

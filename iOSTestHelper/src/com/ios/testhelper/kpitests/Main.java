@@ -79,12 +79,11 @@ public class Main {
 
         setUpIOsHelper();
 
-        testManager = TestManager.getInstance(iosTestHelper, "","","",iOSDeviceUUID,"","");
+        testManager = TestManager.getInstance(iosTestHelper, pathToiOSApp, "", "", iOSDeviceUUID, pathToFolderResults, "");
 
         mainLogic();
         iosTestHelper.sleep(2000);
         iosTestHelper.stopInstruments();
-
     }
 
     private static void setUpIOsHelper() {

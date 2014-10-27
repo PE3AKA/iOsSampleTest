@@ -19,6 +19,7 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
  * Created by nikolai on 10/27/14.
  */
 public class OpenRandomContent extends KpiTest {
+
     private enum State{DOWNLOAD_SUCCESS, DOWNLOAD_ERROR, DOWNLOAD_MISSING}
     private State currentState = State.DOWNLOAD_SUCCESS;
 
@@ -36,35 +37,8 @@ public class OpenRandomContent extends KpiTest {
      */
     private long timeoutTestAction = 0;
 
-    protected static final int SWIPE_UP = 0;
-    protected static final int SWIPE_DOWN = 1;
-
     public OpenRandomContent(ITest iosTestHelper, PropertiesManager propertiesManager, TestManager testManager) {
         super(iosTestHelper, propertiesManager, testManager);
-    }
-
-    protected int generateRandom(int min, int max){
-        Random random = new Random();
-        int randomIndex = random.nextInt((max-min)+1) + min;
-        return randomIndex;
-    }
-
-    protected void randomSwipe(Element element, int swipeSide) {
-        int randomIndex = generateRandom(1, 5);
-        switch (swipeSide){
-            case SWIPE_UP:
-                while(randomIndex != 0) {
-                    iosTestHelper.scrollUpInsideElement(element, element.getHeight(), 1);
-                    randomIndex--;
-                }
-                break;
-            case SWIPE_DOWN:
-                while(randomIndex != 0) {
-                    iosTestHelper.scrollDownInsideElement(element, element.getHeight(), 1);
-                    randomIndex--;
-                }
-                break;
-        }
     }
 
     protected Element waitForFillContainer(UIAElementType className, long timeoutMs, int instance, Element parentElement, int maxLevel) {
@@ -87,7 +61,7 @@ public class OpenRandomContent extends KpiTest {
 
     protected Element getRandomElementByContainer(Element container){
         ArrayList<Element> children = iosTestHelper.getElementChildren(container);
-        int index = generateRandom(0, children.size());
+        int index = iosTestHelper.generateRandom(0, children.size());
 
         i("Random index " + index);
         return iosTestHelper.waitForElementByClassExists(UIAElementType.UIACollectionCell, 1, index, container, 1);
@@ -223,6 +197,7 @@ public class OpenRandomContent extends KpiTest {
         int iReader = openItem();
         switch (iReader) {
             case EPUB_READER:
+                changeTextOptions();
                 closeBook(EPUB_READER, "Back to library");
                 break;
             case DRP_READER:
@@ -248,6 +223,184 @@ public class OpenRandomContent extends KpiTest {
         return uiaStaticText.getName();
     }
 
+    protected boolean changeTextOptions() {
+        addBookmark();
+        Element btnTextOptions = iosTestHelper.waitForElementByNameExists("Text options", 1, 0, true, null, 2);
+        if (btnTextOptions == null) {
+            iosTestHelper.clickOnScreenCenter(0);
+            btnTextOptions = iosTestHelper.waitForElementByNameExists("Text options", 1, 0, true, null, 2);
+        }
+
+        if (btnTextOptions == null) {
+            report("ChangeTextOptions", "", false);
+            return false;
+        }
+
+        iosTestHelper.saveClickOnElement(btnTextOptions);
+
+        if (iosTestHelper.waitForElementByNameExists("Text options", 10000, 0, true, null, 2) == null) {
+            report("ChangeTextOptions", "", false);
+            return false;
+        }
+
+        switch (iosTestHelper.generateRandom(0, 2)) {
+            case 0:
+                changeSize(0, true);
+                break;
+            case 1:
+                changeLineSpacing(0, true);
+                break;
+            case 2:
+                changeMargins(0, true);
+                break;
+        }
+        return true;
+    }
+
+    protected boolean changeLineSpacing(int index, boolean isRandom) {
+        if(isRandom) {
+            index = iosTestHelper.generateRandom(0, 3);
+        }
+
+        Element element = null;
+        String testData = "";
+        switch (index) {
+            case ITest.SINGLE_LINE_SPACING:
+                element = iosTestHelper.waitForElementByNameExists("SingleLineSpacing", 1, 0, true, null, 2);
+                testData = "SingleLineSpacing";
+                break;
+            case ITest.ONE_AND_HALF_LINES_SPACING:
+                element = iosTestHelper.waitForElementByNameExists("OneAndHalfLinesSpacing", 1, 0, true, null, 2);
+                testData = "OneAndHalfLinesSpacing";
+                break;
+            case ITest.MULTIPLE_LINE_SPACING:
+                element = iosTestHelper.waitForElementByNameExists("MultipleLinesSpacing", 1, 0, true, null, 2);
+                testData = "MultipleLinesSpacing";
+                break;
+        }
+
+        iosTestHelper.saveClickOnElement(element);
+
+        if(iosTestHelper.waitForElementByNameExists("Applying settings...", 10000, 0, true, null, 3) != null) {
+            if(!iosTestHelper.waitForElementByNameGone("Applying settings...", 60000, 0, true, null, 3)) {
+                report("ChangeTextLineSpacing", (bookName == null ? "" : bookName) + "&" + testData, false);
+                return false;
+            } else {
+                report("ChangeTextLineSpacing", (bookName == null ? "" : bookName) + "&" + testData, true);
+            }
+        }
+
+        return true;
+    }
+
+    protected boolean changeMargins(int index, boolean isRandom) {
+        if(isRandom) {
+            index = iosTestHelper.generateRandom(0, 3);
+        }
+
+        Element element = null;
+        String testData = "";
+        switch (index) {
+            case ITest.SMALL_MARGIN:
+                element = iosTestHelper.waitForElementByNameExists("SmallMargin", 1, 0, true, null, 2);
+                testData = "SmallMargin";
+                break;
+            case ITest.MEDIUM_MARGIN:
+                element = iosTestHelper.waitForElementByNameExists("MediumMargin", 1, 0, true, null, 2);
+                testData = "MediumMargin";
+                break;
+            case ITest.LARGE_MARGIN:
+                element = iosTestHelper.waitForElementByNameExists("LargeMargin", 1, 0, true, null, 2);
+                testData = "LargeMargin";
+                break;
+        }
+
+        iosTestHelper.saveClickOnElement(element);
+
+        if(iosTestHelper.waitForElementByNameExists("Applying settings...", 10000, 0, true, null, 3) != null) {
+            if(!iosTestHelper.waitForElementByNameGone("Applying settings...", 60000, 0, true, null, 3)) {
+                report("ChangeTextMargin", (bookName == null ? "" : bookName) + "&" + testData, false);
+                return false;
+            } else {
+                report("ChangeTextMargin", (bookName == null ? "" : bookName) + "&" + testData, true);
+            }
+        }
+
+        return false;
+    }
+
+    protected boolean addBookmark() {
+        Element btnAddBookmark = iosTestHelper.waitForElementByNameExists("Add bookmark", 1, 0, true, null, 2);
+        if(btnAddBookmark == null) {
+            iosTestHelper.clickOnScreenCenter(0);
+            btnAddBookmark = iosTestHelper.waitForElementByNameExists("Add bookmark", 1, 0, true, null, 2);
+        }
+
+        if(btnAddBookmark == null) {
+            report("AddBookmark", (bookName == null ? "" : bookName), false);
+            return false;
+        }
+
+        iosTestHelper.saveClickOnElement(btnAddBookmark);
+        report("AddBookmark", (bookName == null ? "" : bookName), true);
+
+        return true;
+    }
+
+    public boolean changeSize(int index, boolean isRandom) {
+        if(isRandom) {
+            index = iosTestHelper.generateRandom(0, 5);
+        }
+
+        Element element = null;
+        String testData = "";
+
+        switch (index) {
+            case ITest.EXTRA_SMALL_FONT:
+                element = iosTestHelper.waitForElementByNameExists("extraSmallFont", 1, 0, true, null, 2);
+                testData = "extraSmallFont";
+                break;
+            case ITest.SMALL_FONT:
+                element = iosTestHelper.waitForElementByNameExists("smallFont", 1, 0, true, null, 2);
+                testData = "smallFont";
+                break;
+            case ITest.MEDIUM_SMALL_FONT:
+                element = iosTestHelper.waitForElementByNameExists("mediumSmallFont", 1, 0, true, null, 2);
+                testData = "mediumSmallFont";
+                break;
+            case ITest.MEDIUM_LARGE_FONT:
+                element = iosTestHelper.waitForElementByNameExists("mediumLargeFont", 1, 0, true, null, 2);
+                testData = "mediumLargeFont";
+                break;
+            case ITest.LARGE_FONT:
+                element = iosTestHelper.waitForElementByNameExists("largeFont", 1, 0, true, null, 2);
+                testData = "largeFont";
+                break;
+            case ITest.EXTRA_LARGE_FONT:
+                element = iosTestHelper.waitForElementByNameExists("extraLargeFont", 1, 0, true, null, 2);
+                testData = "extraLargeFont";
+                break;
+        }
+
+        if(element == null) {
+            report("ChangeTextSize", (bookName == null ? "" : bookName)+ "&" + testData, false);
+            return false;
+        }
+
+        iosTestHelper.saveClickOnElement(element);
+
+        if(iosTestHelper.waitForElementByNameExists("Applying settings...", 10000, 0, true, null, 3) != null) {
+            if(!iosTestHelper.waitForElementByNameGone("Applying settings...", 60000, 0, true, null, 3)){
+                report("ChangeTextSize", (bookName == null ? "" : bookName)+ "&" + testData, false);
+                return false;
+            } else {
+                report("ChangeTextSize", (bookName == null ? "" : bookName)+ "&" + testData, true);
+            }
+        }
+
+        return true;
+    }
+
     @Override
     public boolean execute(ProductTypeEnum productTypeEnum) {
         testName = "OpenRandomContent";
@@ -268,6 +421,6 @@ public class OpenRandomContent extends KpiTest {
 
     protected void reLaunchApp() {
         iosTestHelper.stopInstruments();
-        iosTestHelper.launchServer(false, true, 0);
+        TestManager.setUpIOsHelper(false);
     }
 }
