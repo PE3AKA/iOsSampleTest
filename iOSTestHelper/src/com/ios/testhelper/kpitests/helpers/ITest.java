@@ -31,6 +31,17 @@ public class ITest extends IOSTestHelper {
             return super.clickOnElementByXYAndWaitElement(element, 0.5, 0.5, parent, elementForWait);
     }
 
+    public void saveLongClickOnElement(Element element){
+        if(element == null) {
+            i("can not long click to element, because element is null");
+            return;
+        }
+        if(element.isVisible())
+            super.longClickOnElement(element, 4);
+        else
+            super.longClickOnElementByXY(element, 0.5, 0.5, 4);
+    }
+
     public void saveClickOnElement(Element element){
         if(element == null) {
             i("can not click to element, because element is null");
@@ -110,7 +121,11 @@ public class ITest extends IOSTestHelper {
         TestManager.write(TestManager.addLogParams(new Date(), testName, kpiName, testData, true));
     }
 
-    public void failKpi(String testName, String kpiName, String testData){
+    public void failKpi(String testName, String kpiName, String testData) {
         TestManager.write(TestManager.addLogParams(new Date(), testName, kpiName, testData, false));
+    }
+
+    public void reportStress(String testName, String testAction, String testData, String testType, String testCycle, boolean testResult) {
+        TestManager.write(TestManager.addLogParams(new Date(), testName, testAction, testData, testType, testCycle, testResult));
     }
 }

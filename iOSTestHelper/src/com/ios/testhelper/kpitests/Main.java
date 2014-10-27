@@ -5,6 +5,7 @@ import com.ios.testhelper.kpitests.helpers.ITest;
 import com.ios.testhelper.kpitests.init.InitParams;
 import com.ios.testhelper.kpitests.init.Params;
 import com.ios.testhelper.kpitests.kpi.*;
+import com.ios.testhelper.kpitests.stress.OpenRandomContent;
 import net.bugs.testhelper.ios.alert.AlertCondition;
 import net.bugs.testhelper.ios.alert.AlertHandler;
 import net.bugs.testhelper.ios.alert.AlertItem;
@@ -166,7 +167,10 @@ public class Main {
                 startTest();
             }
             return;
+        } else if(testName.equals(Params.TEST_OPEN_RANDOM_CONTENT)) {
+            kpiTest = new OpenRandomContent(iosTestHelper, propertiesManager, testManager);
         }
+
         if(kpiTest == null) {
             i("\"" +testName + "\" incorrect test name!\n\n" +
                     "valid test names:\n" + Params.getTestList());

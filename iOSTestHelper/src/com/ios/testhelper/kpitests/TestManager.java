@@ -76,6 +76,13 @@ public class TestManager {
         return getInstance(iosTestHelper, mBuildId, mLogin, mPassword, mDeviceId, mHwDevice, mArgTimeout);
     }
 
+    public static ItemLog addLogParams(Date date, String testName, String testAction, String testData, String testType, String testCycle, boolean testResult){
+        ItemLog itemLog = addLogParams(date, testName, testAction, testData, testResult);
+        itemLog.setTestType(testType);
+        itemLog.setTestCycle(testCycle);
+        return itemLog;
+    }
+
     public static ItemLog addLogParams(Date date, String testName, String testAction, String testData, boolean testResult){
         ItemLog itemLog = new ItemLog(propertiesManager);
         itemLog.setBuild(mBuildId);
