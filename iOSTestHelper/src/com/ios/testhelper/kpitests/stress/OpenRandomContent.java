@@ -124,7 +124,7 @@ public class OpenRandomContent extends KpiTest {
                 iosTestHelper.waitForElementByNameExists("Back to Library", 5000, 0, true, null, 3) != null) {
             report("Open", bookName == null ? "" : bookName, true);
             return EPUB_READER;
-        } else if(iosTestHelper.waitForElementByNameExists("Add bookmark", 10000, 0, true, parentAddBookmark, 2) != null) {
+        } else if(iosTestHelper.waitForElementByNameExists("Add bookmark", 10000, 0, true, parentAddBookmark, 4) != null) {
             report("Open", bookName == null ? "" : bookName, true);
             return DRP_READER;
         }
@@ -197,11 +197,14 @@ public class OpenRandomContent extends KpiTest {
         int iReader = openItem();
         switch (iReader) {
             case EPUB_READER:
-                changeTextOptions();
-                closeBook(EPUB_READER, "Back to library");
+                changeEpubReaderState();
+                if(!closeBook(EPUB_READER, "Back to library"))
+                    return false;
                 break;
             case DRP_READER:
-                closeBook(DRP_READER, iosTestHelper.isIPad() ? "Library" : "library");
+                changeDrpReaderState();
+                if(!closeBook(DRP_READER, iosTestHelper.isIPad() ? "Library" : "library"))
+                    return false;
                 break;
             default:
                 report("Open", bookName, false);
@@ -209,6 +212,69 @@ public class OpenRandomContent extends KpiTest {
         }
 
         return true;
+    }
+
+    private void changeOrientation() {
+        switch (iosTestHelper.generateRandom(0, 2)){
+            case 0:
+                if(iosTestHelper.setOrientationLandscapeLeft()) {
+                    report("ChangeOrientation", "landscape", true);
+                } else
+                    report("ChangeOrientation", "landscape", false);
+                break;
+            case 1:
+                if(iosTestHelper.setOrientationPortrait()) {
+                    report("ChangeOrientation", "portrait", true);
+                } else
+                    report("ChangeOrientation", "portrait", false);
+                break;
+        }
+
+    }
+
+    private void changeEpubReaderState() {
+        int index = iosTestHelper.generateRandom(0, 2);
+        switch (index) {
+            case 0:
+                changeTextOptions();
+                break;
+            case 1:
+                pageTurn();
+                break;
+        }
+    }
+
+    private void changeDrpReaderState() {
+        int index = iosTestHelper.generateRandom(0, 2);
+        switch (index){
+            case 0:
+                addBookmark();
+                break;
+            case 1:
+                pageTurn();
+                break;
+        }
+    }
+
+    private void pageTurn(){
+        int index = iosTestHelper.generateRandom(0, 2);
+        Element uiaScrollView = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAScrollView, 1, 0, null, 3);
+
+        if(uiaScrollView == null) {
+            report("PageTurn", bookName == null ? "" : bookName, false);
+            return;
+        }
+
+        switch (index) {
+            case 0:
+                iosTestHelper.scrollLeftInsideElement(uiaScrollView, uiaScrollView.getWidth(), 0.5);
+                report("PageTurnLeft", bookName == null ? "" : bookName, true);
+                break;
+            case 1:
+                iosTestHelper.scrollRightInsideElement(uiaScrollView, uiaScrollView.getWidth(), 0.5);
+                report("PageTurnRight", bookName == null ? "" : bookName, true);
+                break;
+        }
     }
 
     protected String getBookName() {
@@ -243,7 +309,7 @@ public class OpenRandomContent extends KpiTest {
             return false;
         }
 
-        switch (iosTestHelper.generateRandom(0, 2)) {
+        switch (iosTestHelper.generateRandom(0, 3)) {
             case 0:
                 changeSize(0, true);
                 break;
@@ -254,6 +320,7 @@ public class OpenRandomContent extends KpiTest {
                 changeMargins(0, true);
                 break;
         }
+
         return true;
     }
 
@@ -288,6 +355,10 @@ public class OpenRandomContent extends KpiTest {
             } else {
                 report("ChangeTextLineSpacing", (bookName == null ? "" : bookName) + "&" + testData, true);
             }
+        }else {
+            Element closeElement = iosTestHelper.waitForElementByNameExists("Close", 1, 0, true, null, 2);
+            iosTestHelper.saveClickOnElement(closeElement);
+            return false;
         }
 
         return true;
@@ -324,16 +395,25 @@ public class OpenRandomContent extends KpiTest {
             } else {
                 report("ChangeTextMargin", (bookName == null ? "" : bookName) + "&" + testData, true);
             }
+        }else {
+            Element closeElement = iosTestHelper.waitForElementByNameExists("Close", 1, 0, true, null, 2);
+            iosTestHelper.saveClickOnElement(closeElement);
+            return false;
         }
 
         return false;
     }
 
     protected boolean addBookmark() {
-        Element btnAddBookmark = iosTestHelper.waitForElementByNameExists("Add bookmark", 1, 0, true, null, 2);
+        Element uiaToolBar = iosTestHelper.waitForElementByClassVisible(UIAElementType.UIAToolBar, 1, 0, null, 2);
+        if(uiaToolBar != null) {
+            iosTestHelper.clickOnScreenCenter(0);
+        }
+
+        Element btnAddBookmark = iosTestHelper.waitForElementByNameExists("Add bookmark", 1, 0, true, null, 4);
         if(btnAddBookmark == null) {
             iosTestHelper.clickOnScreenCenter(0);
-            btnAddBookmark = iosTestHelper.waitForElementByNameExists("Add bookmark", 1, 0, true, null, 2);
+            btnAddBookmark = iosTestHelper.waitForElementByNameExists("Add bookmark", 1, 0, true, null, 4);
         }
 
         if(btnAddBookmark == null) {
@@ -396,18 +476,25 @@ public class OpenRandomContent extends KpiTest {
             } else {
                 report("ChangeTextSize", (bookName == null ? "" : bookName)+ "&" + testData, true);
             }
+        }else {
+            Element closeElement = iosTestHelper.waitForElementByNameExists("Close", 1, 0, true, null, 2);
+            iosTestHelper.saveClickOnElement(closeElement);
+            return false;
         }
 
         return true;
     }
 
-    @Override
+    @Override 
     public boolean execute(ProductTypeEnum productTypeEnum) {
         testName = "OpenRandomContent";
 
         for(int indexCycle = 0; indexCycle < 100; indexCycle++) {
+
             testCycle = indexCycle;
             currentState = State.DOWNLOAD_SUCCESS;
+
+            changeOrientation();
             if(!randomOpenBook()) {
                 reLaunchApp();
             }
