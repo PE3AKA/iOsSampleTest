@@ -40,7 +40,7 @@ public class ITest extends IOSTestHelper{
 
     public int generateRandom(int min, int max){
         Random random = new Random();
-        int randomIndex = random.nextInt((max - min)+1) + min;
+        int randomIndex = random.nextInt(max - min) + min;
         return randomIndex;
     }
 

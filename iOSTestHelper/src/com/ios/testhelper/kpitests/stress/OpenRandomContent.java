@@ -485,7 +485,7 @@ public class OpenRandomContent extends KpiTest {
         return true;
     }
 
-    @Override 
+    @Override
     public boolean execute(ProductTypeEnum productTypeEnum) {
         testName = "OpenRandomContent";
 

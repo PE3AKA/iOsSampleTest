@@ -148,9 +148,9 @@ public class TestOpenItemKpi extends KpiTest {
         }
 
         // swipe up if iphone
-        if(iosTestHelper.isIphone()){
+        if(iosTestHelper.isIphone()) {
             Element scrollView = iosTestHelper.waitForElementByClassExists(UIAElementType.UIAScrollView, 1000, 0, null, 3);
-            iosTestHelper.scrollUpInsideElement(scrollView, scrollView.getHeight()*3, 3);
+            iosTestHelper.scrollUpInsideElement(scrollView, scrollView.getHeight()*2, 3);
         }
 
         //---------------------
