@@ -100,7 +100,7 @@ public class TestOpenItemKpi extends KpiTest {
 
         ElementForWait parentForWaitElement = new ElementForWait(ElementForWait.QueryType.CLASS, "UIACollectionView", 1, 0, 2, false);
         ElementForWait elementForWait = new ElementForWait(ElementForWait.QueryType.CLASS, "UIACollectionCell", 20000, 0, 1, false);
-        if(!iosTestHelper.clickOnElementAndWaitElement(searchBtn, parentForWaitElement, elementForWait)) {
+        if(iosTestHelper.clickOnElementAndWaitElement(searchBtn, parentForWaitElement, elementForWait) == null) {
             TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
             failSearch(name);
             return;
