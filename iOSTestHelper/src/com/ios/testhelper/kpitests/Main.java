@@ -92,7 +92,19 @@ public class Main {
         final AlertHandler alertHandler = new AlertHandler();
 
         alertHandler.logMessage("Alert appeared");
-        alertHandler.takeScreenShot(alertHandler.getDate("-"), "_", alertHandler.getTime("-"), "_", "alert");
+
+//        alertHandler.takeScreenShot(new AlertStep.IScreenShot() {
+//            @Override
+//            public Object[] getScreenShotName() {
+//                return new Object[] {alertHandler.getDate("-"), "_", alertHandler.getTime("-"), "_", "alert"};
+//            }
+//
+//            @Override
+//            public boolean takeScreenShotViaInstrumentsOnly() {
+//                return true;
+//            }
+//        });
+
         AlertItem result = alertHandler.waitForElementByNameVisible("logging out will", 1, 0, false, null, 4);
         alertHandler.createElementNotNullCondition(result, new AlertCondition.ConditionResults() {
             @Override

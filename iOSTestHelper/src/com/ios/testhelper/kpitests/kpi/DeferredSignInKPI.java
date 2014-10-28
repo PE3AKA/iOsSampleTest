@@ -32,32 +32,26 @@ public class DeferredSignInKPI extends SignInKpi {
         long timeout = propertiesManager.getPropertyTimeout(ConfigurationParametersEnum.SAMPLE_DOWNLOAD_TIMEOUT.name());
 
         if (!deferredLogin(timeout)) return false;
-//        if (!deferredOpenLibrary(timeout)) return false;
 
         if(!openSearch("cars", timeout - (System.currentTimeMillis() - testStartTime))) {
             return false;
         }
 
-        iosTestHelper.stopInstruments();
-        iosTestHelper.sleep(5000
-        );
-        Main.setUpIOsHelper(false);
-
-        if (!deferredLogin(timeout)) return false;
-
-        Element collection = iosTestHelper.waitForElementByClassExists(UIAElementType.UIACollectionView, 1, 0, null, 2);
-        Element collectionCell = iosTestHelper.waitForElementByClassExists(UIAElementType.UIACollectionCell, 1, 4, collection, 1);
-
-        if(collectionCell != null) {
-            iosTestHelper.failKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_CHECK_SAMPLE, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
-        } else {
-            iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_CHECK_SAMPLE, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
-        }
-
-//        if (!deferredDownloadSample(timeout)) return false;
-//        if (!deferredOpenSample(timeout, "Back to library", -1))
-//            return false;
-
+//        iosTestHelper.stopInstruments();
+//        iosTestHelper.sleep(5000
+//        );
+//        Main.setUpIOsHelper(false);
+//
+//        if (!deferredLogin(timeout)) return false;
+//
+//        Element collection = iosTestHelper.waitForElementByClassExists(UIAElementType.UIACollectionView, 1, 0, null, 2);
+//        Element collectionCell = iosTestHelper.waitForElementByClassExists(UIAElementType.UIACollectionCell, 1, 4, collection, 1);
+//
+//        if(collectionCell != null) {
+//            iosTestHelper.failKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_CHECK_SAMPLE, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
+//        } else {
+//            iosTestHelper.passKpi(MainConstants.DEFERRED_LIBRARY_TEST_NAME, MainConstants.DEFERRED_LIBRARY_CHECK_SAMPLE, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
+//        }
         return true;
     }
 

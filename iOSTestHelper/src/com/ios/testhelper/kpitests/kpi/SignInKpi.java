@@ -111,9 +111,9 @@ public class SignInKpi extends KpiTest {
 
             }
 
-            if(iosTestHelper.waitForElementByNameExists("Free Sample", 1, 0, true, null, 5) != null){
-                break;
-            }
+//            if(iosTestHelper.waitForElementByNameExists("Free Sample", 1, 0, true, null, 5) != null){
+//                break;
+//            }
         }
 
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());

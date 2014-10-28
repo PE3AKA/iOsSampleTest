@@ -15,7 +15,7 @@ import static net.bugs.testhelper.helpers.LoggerUtil.i;
 /**
  * Created by avsupport on 10/9/14.
  */
-public class ITest extends IOSTestHelper {
+public class ITest extends IOSTestHelper{
     public static final int EXTRA_SMALL_FONT = 0;
     public static final int SMALL_FONT = 1;
     public static final int MEDIUM_SMALL_FONT = 2;

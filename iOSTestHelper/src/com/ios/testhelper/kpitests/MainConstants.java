@@ -3,7 +3,7 @@ package com.ios.testhelper.kpitests;
 /**
  * Created by nikolai on 10.01.14.
  */
-public class MainConstants {
+public class MainConstants{
 
     public static final String CONFIGURATION_FILE_PATH = "config.properties";
     public static final int DEFAULT_TIMEOUT = 60000;
