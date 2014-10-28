@@ -77,7 +77,7 @@ public class Main {
     public static void main(String[] args) {
         init(args);
 
-        setUpIOsHelper();
+        setUpIOsHelper(install.equals("true"));
 
         testManager = TestManager.getInstance(iosTestHelper, pathToiOSApp, "", "", iOSDeviceUUID, pathToFolderResults, "");
 
@@ -86,7 +86,7 @@ public class Main {
         iosTestHelper.stopInstruments();
     }
 
-    private static void setUpIOsHelper() {
+    public static void setUpIOsHelper(boolean isReinstall) {
         iosTestHelper = new ITest(pathToiOSApp, pathToFolderResults, iOSDeviceUUID);
 
         final AlertHandler alertHandler = new AlertHandler();
@@ -124,12 +124,12 @@ public class Main {
 
         iosTestHelper.cleanResultsFolder();
 
-        if (install.equals("true"))
-            installApp = true;
-        if(install.equals("false"))
-            installApp = false;
+//        if (install.equals("true"))
+//            installApp = true;
+//        if(install.equals("false"))
+//            installApp = false;
 
-        iosTestHelper.launchServer(installApp, true, 0);
+        iosTestHelper.launchServer(isReinstall, true, 0);
     }
 
     private static void mainLogic() {

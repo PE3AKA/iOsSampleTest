@@ -69,9 +69,9 @@ public class ITest extends IOSTestHelper {
         }
 
         if(!element.isVisible())
-            return super.clickOnElementAndWaitElement(element, parent, elementForWait);
+            return super.clickOnElementAndWaitElement(element, parent, elementForWait) != null;
         else
-            return super.clickOnElementByXYAndWaitElement(element, 0.5, 0.5, parent, elementForWait);
+            return super.clickOnElementByXYAndWaitElement(element, 0.5, 0.5, parent, elementForWait) != null;
     }
 
     public void saveLongClickOnElement(Element element){

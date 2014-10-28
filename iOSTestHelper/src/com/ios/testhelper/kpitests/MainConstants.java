@@ -17,10 +17,12 @@ public class MainConstants {
 
     public static String DEFERRED_LIBRARY_TEST_NAME = "testDeferredLibrary";
     public static String DEFERRED_LIBRARY_LOAD_SAMPLE = "Load_Sample";
+    public static String DEFERRED_LIBRARY_CHECK_SAMPLE = "Check_Library_After_Relaunch_App";
     public static String DEFERRED_LIBRARY_DOWNLOAD_SAMPLE = "Download_Sample";
-    public static String DEFERRED_LIBRARY_OPEN_SAMPLE = "Download_Sample";
+    public static String DEFERRED_LIBRARY_OPEN_SAMPLE = "Open_Sample";
     public static String LIBRARY_TEST_NAME = "testLibrary";
     public static String LIBRARY_FIRST_SYNC = "First_Sync";
+    public static String SEARCH_SAMPLES = "Search_samples";
     public static String LIBRARY_FULL_SYNC = "Full_Sync";
 
     public static String OPEN_BOOK_TEST_NAME = "testOpenBook";
