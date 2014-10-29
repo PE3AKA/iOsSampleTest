@@ -1,6 +1,7 @@
 package com.ios.testhelper.kpitests;
 
 import com.ios.testhelper.kpitests.helpers.ITest;
+import net.bugs.testhelper.IOSTestHelper;
 
 import java.io.*;
 
@@ -26,6 +27,12 @@ public class FileWorker {
     }
 
     public void writeLog(ItemLog itemLog){
+        writeToFile(itemLog.toString());
+        String name = itemLog.getDate() + "_" + itemLog.getTime() + "_" + (itemLog.getTestResult() ? "pass" : "fail") + "_" + itemLog.getTestName() + "_" + itemLog.getTestAction();
+        iosTestHelper.takeScreenShot(name);
+    }
+
+    public void writeToFile(String log) {
         BufferedWriter bw = null;
         currentFile = new File(fileName);
         try {
@@ -35,7 +42,6 @@ public class FileWorker {
             bw = new BufferedWriter(new FileWriter(currentFile.getAbsoluteFile(), true));
             int number = getLineNumberFile();
             number++;
-            String log = itemLog.toString();
             i("KPI: " + log);
             bw.write(log);
             bw.newLine();
@@ -49,8 +55,6 @@ public class FileWorker {
                 ioe2.printStackTrace();
             }
         }
-        String name = itemLog.getDate() + "_" + itemLog.getTime() + "_" + (itemLog.getTestResult() ? "pass" : "fail") + "_" + itemLog.getTestName() + "_" + itemLog.getTestAction();
-        iosTestHelper.takeScreenShot(name);
     }
 
     private int getLineNumberFile() throws IOException {

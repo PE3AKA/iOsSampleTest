@@ -180,6 +180,30 @@ public class Main {
             return;
         } else if(testName.equals(Params.TEST_OPEN_RANDOM_CONTENT)) {
             kpiTest = new OpenRandomContent(iosTestHelper, propertiesManager, testManager);
+        } else if(testName.equals(Params.TEST_SIGN_IN_JS)) {
+            iosTestHelper.signInJs();
+            return;
+        } else if(testName.equals(Params.TEST_SIGN_OUT_JS)) {
+            iosTestHelper.signOutJs();
+            return;
+        } else if(testName.equals(Params.TEST_OPEN_BOOK_JS)) {
+            iosTestHelper.openBookJs();
+            return;
+        } else if(testName.equals(Params.TEST_OPEN_MAGAZINES_JS)) {
+            iosTestHelper.openMagazineJs();
+            return;
+        } else if(testName.equals(Params.TEST_OPEN_PDF_JS)) {
+            iosTestHelper.openPdfJs();
+            return;
+        } else if(testName.equals(Params.TEST_OPEN_COMICS_JS)) {
+            iosTestHelper.openComicsJs();
+            return;
+        } else if(testName.equals(Params.TEST_OPEN_NEWSPAPER_JS)) {
+            iosTestHelper.openNewspaperJs();
+            return;
+        } else if(testName.equals(Params.TEST_ALL_KPI)) {
+            iosTestHelper.allKpiTestsJs();
+            return;
         }
 
         if(kpiTest == null) {

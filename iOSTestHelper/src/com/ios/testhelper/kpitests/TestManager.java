@@ -1,6 +1,7 @@
 package com.ios.testhelper.kpitests;
 
 import com.ios.testhelper.kpitests.helpers.ITest;
+import net.bugs.testhelper.IOSTestHelper;
 import net.bugs.testhelper.ios.alert.AlertCondition;
 import net.bugs.testhelper.ios.alert.AlertHandler;
 import net.bugs.testhelper.ios.alert.AlertItem;
@@ -37,14 +38,20 @@ public class TestManager {
     private static ITest iosTestHelper;
     private static String mOs;
     private static String mSlaveId;
-    private static String mTestId;
+    private static String mTestId = System.currentTimeMillis() + "";
     private static String mTestName;
 
-    private TestManager(ITest iosTestHelper) {
-        this.iosTestHelper = iosTestHelper;
+    private TestManager(ITest iosTestHelper1) {
+        iosTestHelper = iosTestHelper1;
         File logs = new File("logs");
         if(!logs.exists()) logs.mkdirs();
         fileWorker = new FileWorker(logs.getAbsolutePath() + "/kpi.txt", iosTestHelper);
+        iosTestHelper.setJsKpiListener(new IOSTestHelper.JsKpiListener() {
+            @Override
+            public void kpiCompleted(String line) {
+                fileWorker.writeToFile(String.format(line, mBuildId, mNet, mDeviceId, mSlaveId, mTestId));
+            }
+        });
         fileWorkerStress = new FileWorker(logs.getAbsolutePath() + "/stress.txt", iosTestHelper);
         propertiesManager = new PropertiesManager();
     }
@@ -78,7 +85,7 @@ public class TestManager {
             mNet = propertiesManager.getProperty("NET");
             mOs = iosTestHelper.getIOsDeviceFullVersion();
             mSlaveId = iosTestHelper.getOsFullName();
-            mTestId = System.currentTimeMillis() + "";
+//            mTestId = System.currentTimeMillis() + "";
             mTestName = "DemoKpiTest";
             mLogin = login;
             mPassword = password;
