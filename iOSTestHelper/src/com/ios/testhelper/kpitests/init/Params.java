@@ -26,7 +26,7 @@ public class Params {
     public static final String TEST_OPEN_NEWSPAPER = "openNewspaper";
     public static final String TEST_OPEN_NEWSPAPER_JS = "openNewspaperJs";
     public static final String TEST_ALL_KPI = "allKpiTests";
-    public static final String TEST_ALL_KPI_JS = "allKpiTestsJS";
+    public static final String TEST_ALL_KPI_JS = "allKpiTestsJs";
 
     public static final String[] ALL_KPI_TESTS = new String[]{
             Params.TEST_SIGN_IN,
