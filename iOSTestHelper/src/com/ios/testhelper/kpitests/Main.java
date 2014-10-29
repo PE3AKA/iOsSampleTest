@@ -201,7 +201,7 @@ public class Main {
         } else if(testName.equals(Params.TEST_OPEN_NEWSPAPER_JS)) {
             iosTestHelper.openNewspaperJs();
             return;
-        } else if(testName.equals(Params.TEST_ALL_KPI)) {
+        } else if(testName.equals(Params.TEST_ALL_KPI_JS)) {
             iosTestHelper.allKpiTestsJs();
             return;
         }
