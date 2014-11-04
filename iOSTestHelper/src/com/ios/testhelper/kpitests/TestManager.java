@@ -9,6 +9,8 @@ import net.bugs.testhelper.ios.alert.AlertItem;
 import java.io.File;
 import java.util.Date;
 
+import static net.bugs.testhelper.helpers.LoggerUtil.i;
+
 /**
  * Created by nikolai on 10.01.14.
  */
@@ -49,7 +51,13 @@ public class TestManager {
         iosTestHelper.setJsKpiListener(new IOSTestHelper.JsKpiListener() {
             @Override
             public void kpiCompleted(String line) {
-                fileWorker.writeToFile(String.format(line, mBuildId, mNet, mDeviceId, mSlaveId, mTestId));
+                i("###################### KpiCompleted: " + line);
+                try {
+                    fileWorker.writeToFile(String.format(line, mBuildId, mNet, mDeviceId, mSlaveId, mTestId));
+                } catch (Exception ex) {
+                    i("###################### kpiCompleted: ERROR");
+                    ex.printStackTrace();
+                }
             }
         });
         fileWorkerStress = new FileWorker(logs.getAbsolutePath() + "/stress.txt", iosTestHelper);

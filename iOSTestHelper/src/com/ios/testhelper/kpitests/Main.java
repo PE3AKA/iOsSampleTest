@@ -204,6 +204,12 @@ public class Main {
         } else if(testName.equals(Params.TEST_ALL_KPI_JS)) {
             iosTestHelper.allKpiTestsJs();
             return;
+        } else if(testName.equals(Params.TEST_DEFERRED_SIGN_IN_JS)) {
+            iosTestHelper.deferredSignInJs_scenario1();
+//            iosTestHelper.stopInstruments();
+//            TestManager.setUpIOsHelper(false);
+//            iosTestHelper.deferredSignInJs_scenario2();
+            return;
         }
 
         if(kpiTest == null) {

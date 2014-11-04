@@ -25,6 +25,7 @@ public class Params {
     public static final String TEST_OPEN_COMICS_JS = "openComicsJs";
     public static final String TEST_OPEN_NEWSPAPER = "openNewspaper";
     public static final String TEST_OPEN_NEWSPAPER_JS = "openNewspaperJs";
+    public static final String TEST_DEFERRED_SIGN_IN_JS = "deferredSignInJs";
     public static final String TEST_ALL_KPI = "allKpiTests";
     public static final String TEST_ALL_KPI_JS = "allKpiTestsJs";
 
@@ -52,11 +53,12 @@ public class Params {
                 TEST_OPEN_RANDOM_CONTENT + "\n" +
                 TEST_SIGN_IN_JS + "\n" +
                 TEST_SIGN_OUT_JS + "\n" +
-                TEST_OPEN_BOOK + "\n" +
+                TEST_OPEN_BOOK_JS + "\n" +
                 TEST_OPEN_MAGAZINES_JS + "\n" +
                 TEST_OPEN_PDF_JS + "\n" +
                 TEST_OPEN_COMICS_JS + "\n" +
                 TEST_OPEN_NEWSPAPER_JS + "\n" +
+                TEST_DEFERRED_SIGN_IN_JS + "\n" +
                 TEST_ALL_KPI_JS;
     }
 }
