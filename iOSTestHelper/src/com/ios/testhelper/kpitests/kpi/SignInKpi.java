@@ -28,22 +28,21 @@ public class SignInKpi extends KpiTest {
 
         iosTestHelper.sleep(2000);
 
-//        chooseCountry();
-
         if(btnSignIn == null) {
-            finishReturn("Button 'Sign in' is null.", MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION);
+            TestManager.setEndTime(System.currentTimeMillis());
+            iosTestHelper.failKpi(MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION, propertiesManager.getProperty(ConfigurationParametersEnum.LOGIN.name()));
+            finishReturn("Library is not loaded.", MainConstants.LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC);
             return false;
         }
 
         btnSignIn = iosTestHelper.waitForElementByNameVisible(iosTestHelper.isIPad() ? "explore the app" : "signIn", timeout, 0, true, null, 2);
 
-//        iosTestHelper.takeScreenShot();
         iosTestHelper.saveClickOnElement(btnSignIn);
 
-//        Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 2, true, null, 3);
         Element btnSignInDialog = iosTestHelper.waitForElementByNameExists("Sign In", timeout, 0, true, null, 2);
         if(btnSignInDialog == null) {
             finishReturn("Dialog button 'Sign In' is null.", MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION);
+            finishReturn("Library is not loaded.", MainConstants.LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC);
             return false;
         }
 
@@ -52,6 +51,11 @@ public class SignInKpi extends KpiTest {
         i("Response type:" + responseItem.getResponseType().name() + "; value:" + responseItem.getReturnValue());
 
         i("element: " + responseItem.getElement());
+        if(textFieldEmail == null) {
+            finishReturn("Field 'Email' is null.", MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION);
+            finishReturn("Library is not loaded.", MainConstants.LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC);
+            return false;
+        }
 
         iosTestHelper.saveClickOnElement(textFieldEmail);
         Element btnClear = iosTestHelper.getElementByName("Clear text", 0, true, textFieldEmail, 1);
@@ -62,6 +66,11 @@ public class SignInKpi extends KpiTest {
         iosTestHelper.sleep(1000);
 
         Element textFieldPassword = iosTestHelper.waitForElementByClassExists(UIAElementType.UIASecureTextField, 5000, 0, null, 2);
+        if(textFieldPassword == null) {
+            finishReturn("Field 'Password' is null.", MainConstants.SING_IN_TEST_NAME, MainConstants.SING_IN_TEST_ACTION);
+            finishReturn("Library is not loaded.", MainConstants.LIBRARY_TEST_NAME, MainConstants.LIBRARY_FIRST_SYNC);
+            return false;
+        }
         iosTestHelper.saveClickOnElement(textFieldPassword);
         btnClear = iosTestHelper.getElementByName("Clear text", 0, true, textFieldPassword, 1);
         if(btnClear != null)
@@ -75,9 +84,6 @@ public class SignInKpi extends KpiTest {
         }
 
         TestManager.setStartTime(iosTestHelper.getResponseItem().getStartTime());
-
-//        iosTestHelper.takeScreenShot();
-
 
         long startTime = System.currentTimeMillis();
         Element collection;
@@ -110,10 +116,6 @@ public class SignInKpi extends KpiTest {
 //                at com.intellij.rt.execution.application.AppMain.main(AppMain.java:120)
 
             }
-
-//            if(iosTestHelper.waitForElementByNameExists("Free Sample", 1, 0, true, null, 5) != null){
-//                break;
-//            }
         }
 
         TestManager.setEndTime(iosTestHelper.getResponseItem().getEndTime());
